@@ -1,0 +1,12 @@
+<table id="aMailTable">
+	<tr>
+		<th>Sander</th>
+		<th>Subject</th>
+		<th>Date</th>
+	</tr>
+	<tr ng-repeat="message in listCtrl.messages">
+		<td ng-bind="message.sender"></td>
+		<td><a ng-href="#/view/{{message.id}}" ng-bind="message.subject"></a></td>
+		<td ng-bind="message.date"></td>
+	</tr>
+</table>
