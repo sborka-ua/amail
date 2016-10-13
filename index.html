@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="aMail">
+<html>
 <head>
     <meta charset="utf-8">
     <title>aMail Service</title>
@@ -24,7 +24,7 @@
     <script src="../angular-route.js"></script>
     <script src="controllers.js"></script>
 </head>
-<body>
+<body ng-app="aMail">
 <div class="container">
 	<div class="row">
 
@@ -35,8 +35,8 @@
         <!-- left menu starts -->
 		<section class="sidebar-nav col-sm-2 col-lg-2">
 			<nav class="navbar" role="navigation">
-				<ul class="nav nav-pills nav-stacked main-menu">
-					<li class="active disabled"><a class="ajax-link" href="/"><span> Входящие</span></a>
+				<ul class="nav nav-pills nav-stacked">
+					<li class="active"><a class="ajax-link" href="/"><span> Входящие</span> <span class="badge pull-right" messages-count></span></a>
 					</li>
 					<li><a class="ajax-link" href="/"><span> Отправленные</span></a>
 					</li>
@@ -47,7 +47,7 @@
 		</section>
         <!-- left menu ends -->
 
-        <noscript>
+       <noscript>
             <div class="alert alert-block col-md-12">
                 <h4 class="alert-heading">Warning!</h4>
 

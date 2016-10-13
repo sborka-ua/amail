@@ -2,6 +2,7 @@ angular.module('aMail', ['ngRoute'])
   .config(emailRouteConfig)
   .filter('arrayToStringComaSeparated', arrayToStringComaSeparated)
   .factory('messagesFactory', messagesFactory)
+  .directive('messagesCount', messagesCount)
 ;
 
 function arrayToStringComaSeparated() {
@@ -14,12 +15,12 @@ function arrayToStringComaSeparated() {
 function emailRouteConfig($routeProvider) {
 	$routeProvider
 	.when('/', {
-		controller: ListController,
+		controller: ListCtrl,
 		controllerAs: 'listCtrl',
 		templateUrl: 'list.html'
 	})
 	.when('/view/:id', {
-		controller: DetailController,
+		controller: DetailCtrl,
 		controllerAs: 'detailCtrl',
 		templateUrl: 'detail.html'
 	})
@@ -27,6 +28,19 @@ function emailRouteConfig($routeProvider) {
 		redirectTo: '/'
 	});
 };
+
+// Counting messages
+function messagesCount() {
+	var directive = {
+		restrict: 'A',
+		scope: {},
+		bindToController: true,
+		template: '{{messagesCountCtrl.messagesLength}}',
+		controllerAs: 'messagesCountCtrl',
+		controller: MessagesCountCtrl
+	};
+	return directive;
+}
 
 // Some fake emails
 function messagesFactory() {
@@ -61,10 +75,14 @@ function messagesFactory() {
 	];
 }
 
-function ListController(messagesFactory) {
-	this.messages = messages;
+function DetailCtrl($routeParams) {
+	this.message = messages[$routeParams.id];
 }
 
-function DetailController($routeParams) {
-	this.message = messages[$routeParams.id];
+function MessagesCountCtrl(messagesFactory) {
+	this.messagesLength = messages.length;
+}
+
+function ListCtrl(messagesFactory) {
+	this.messages = messages;
 }
