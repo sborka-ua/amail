@@ -8,12 +8,12 @@
     <meta name="author" content="Vadim Zhivitskiy">
 
     <!-- The styles -->
-	<link href="../bootstrap.min.css" rel="stylesheet">
-    <link href='../animate.min.css' rel='stylesheet'>
-    <link href='style.css' rel='stylesheet'>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href='css/animate.min.css' rel='stylesheet'>
+    <link href='css/style.css' rel='stylesheet'>
 
     <!-- jQuery -->
-    <script src="../jquery.min.js"></script>
+    <script src="scripts/jquery.min.js"></script>
 
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -21,11 +21,20 @@
     <![endif]-->
 
     <!-- AngularJS -->
-    <script src="../angular.min.js"></script>
-    <script src="../angular-route.js"></script>
-    <script src="controllers.js"></script>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/angular-route.js"></script>
+    <script src="scripts/controllers.js"></script>
 </head>
 <body ng-app="aMail">
+
+    <!-- topbar starts -->
+    <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-inner">
+
+        </div>
+    </div>
+    <!-- /topbar ends -->
+
 <div class="container">
 	<div class="row">
 
@@ -36,7 +45,7 @@
         <!-- left menu starts -->
 		<section class="sidebar-nav col-sm-3 col-lg-2">
 			<nav class="navbar" role="navigation">
-				<ul class="nav nav-pills nav-stacked">
+				<ul class="nav nav-pills nav-stacked main-menu">
 					<li class="active"><a class="ajax-link" href="/"><span> Входящие</span><span class="badge pull-right" messages-count></span></a>
 					</li>
 					<li><a class="ajax-link" href="/"><span> Отправленные</span></a>
@@ -47,7 +56,7 @@
 			</nav>
 		</section>
         <div class="clearfix visible-xs-block"></div>
-		<!-- left menu ends -->
+		<!-- /left menu ends -->
 
        <noscript>
             <div class="alert alert-block col-md-12">
@@ -63,14 +72,25 @@
 
 			<div ng-view></div>
 
-			<!-- content ends -->
+			<!-- /content ends -->
 		</section>
-	</div>
-</div>
+
+	</div> <!-- /row ends -->
+
+	<hr>
+
+    <footer class="row">
+        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="https://github.com/sborka-ua" target="_blank">Vadim Zhivitskiy</a> 2016</p>
+
+        <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
+                href="https://github.com/sborka-ua/amail">aMail</a></p>
+    </footer>
+
+</div> <!-- /container ends -->
 
 <!-- external javascript -->
 
-    <script src="../bootstrap.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
 
 </body>
 </html>
