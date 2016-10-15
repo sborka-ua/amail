@@ -1,0 +1,20 @@
+<div id="detailCtrl">
+	<div>
+		<strong>Тема: </strong>
+		<span ng-bind="detailCtrl.message.subject"></span>
+	</div>
+	<div>
+		<strong>Отправитель: </strong>
+		<span ng-bind="detailCtrl.message.sender"></span>
+	</div>
+	<div>
+		<strong>Дата: </strong>
+		<span ng-bind="detailCtrl.message.date"></span>
+	</div>
+	<div>
+		<strong>Получатели: </strong>
+		<strong ng-bind="detailCtrl.message.recipients | arrayToStringComaSeparated"></strong>
+	</div>
+
+	<div id="messageDetail" ng-bind="detailCtrl.message.message"></div>
+</div>
