@@ -24,7 +24,10 @@
     <script src="scripts/angular.min.js"></script>
     <script src="scripts/angular-route.js"></script>
     <script src="scripts/app.js"></script>
-<!--    <script src="scripts/controllers.js"></script> -->
+	<script src="scripts/controllers.js"></script> 
+	<script src="scripts/directives.js"></script> 
+ 	<script src="scripts/filters.js"></script>
+ 	<script src="scripts/services.js"></script>
 
     <!-- Bootstrap JS -->
     <script src="scripts/bootstrap.min.js"></script>
@@ -51,11 +54,21 @@
 		<section class="sidebar-nav col-sm-3 col-lg-2">
 			<nav class="navbar" role="navigation">
 				<ul class="nav nav-pills nav-stacked main-menu">
-					<li class="active"><a class="ajax-link" href="#/"><span> Входящие</span><span class="badge pull-right" messages-count></span></a>
+					<li class="active">
+						<a class="ajax-link" href="#/">
+							<span> Входящие</span>
+							<span class="badge pull-right" messages-count></span>
+						</a>
 					</li>
-					<li><a class="ajax-link" href="#/"><span> Отправленные</span></a>
+					<li>
+						<a class="ajax-link" href="#/">
+							<span> Отправленные</span>
+						</a>
 					</li>
-					<li><a class="ajax-link" href="#/"><span> Корзина</span></a>
+					<li>
+						<a class="ajax-link" href="#/">
+							<span> Корзина</span>
+						</a>
 					</li>
 				 </ul>
 			</nav>
