@@ -7,7 +7,7 @@ function messagesFactory() {
 	return messages = [
 	  {
 	id: 0,
-	sender: 'jean@somecompany.com',
+	sender: 'jean@some.com',
 	subject: 'Hi there, old friend',
 	date: 'Dec 7, 2013 12:32:00',
 	recipients: ['greg@somecompany.com', 'maria@somecompany.com', 'bill@somecompany.com'],

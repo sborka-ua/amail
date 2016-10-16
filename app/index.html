@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>aMail Service</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="aMail Service, a fully featured, responsive, HTML5, AngularJS and Bootstrap application">
+	<meta name="robots" content="noindex,nofollow" />
     <meta name="author" content="Vadim Zhivitskiy">
+    <meta name="description" content="aMail Service, a fully featured, responsive, HTML5, AngularJS and Bootstrap application">
+    <title>aMail Service</title>
 
     <!-- Styles -->
 	<link href="styles/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +23,7 @@
     <![endif]-->
 
     <!-- Angular JS -->
-    <script src="scripts/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="scripts/angular-route.js"></script>
     <script src="scripts/app.js"></script>
 	<script src="scripts/controllers.js"></script> 
@@ -47,7 +49,7 @@
 	<div class="row">
 
 		<header class="well well-sm">
-			<h4 class="text-center text-primary">aMail - awesome mail service</h4>
+			<h4 class="text-center text-primary">aMail - превосходный почтовый сервис</h4>
 		</header>
 
         <!-- left menu starts -->
@@ -56,18 +58,18 @@
 				<ul class="nav nav-pills nav-stacked main-menu">
 					<li class="active">
 						<a class="ajax-link" href="#/">
-							<span> Входящие</span>
-							<span class="badge pull-right" messages-count></span>
+							<span>Входящие</span>
+							<span messages-count class="badge pull-right"></span>
 						</a>
 					</li>
 					<li>
 						<a class="ajax-link" href="#/">
-							<span> Отправленные</span>
+							<span>Отправленные</span>
 						</a>
 					</li>
 					<li>
 						<a class="ajax-link" href="#/">
-							<span> Корзина</span>
+							<span>Корзина</span>
 						</a>
 					</li>
 				 </ul>
@@ -80,7 +82,11 @@
             <div class="alert alert-block col-md-12">
                 <h4 class="alert-heading">Warning!</h4>
 
-                <p>You need to have JavaScript enabled to use this site.</p>
+                <p>You need to have JavaScript enabled to use this site</p>
+
+                <h4 class="alert-heading">Внимание!</h4>
+
+                <p>Чтобы пользоваться этим сервисом, Вам необходимо включить в браузере JavaScript</p>
             </div>
         </noscript>
 

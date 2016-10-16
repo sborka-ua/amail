@@ -11,4 +11,3 @@ function ListCtrl(messagesFactory) {
 function MessagesCountCtrl(messagesFactory) {
 	this.messagesLength = messages.length;
 }
-

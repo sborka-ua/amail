@@ -2,7 +2,7 @@ angular.module('aMail.directives', [])
   .directive('messagesCount', messagesCount)
 ;
 
-// messagesCount - counting messages
+// Counting messages
 function messagesCount() {
 	var directive = {
 		restrict: 'A',

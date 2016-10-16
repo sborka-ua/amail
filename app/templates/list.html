@@ -1,33 +1,30 @@
-<table class="table table-hover table-condensed hidden-xs">
-	<thead>
-		<tr>
-			<th class=""><span class="label label-primary">Тема</span></th>
-			<th class=""><span class="label label-default">Отправитель</span></th>
-			<th class=""><span class="label label-default">Дата</span></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="message in listCtrl.messages">
-			<td><a ng-href="#/view/{{message.id}}" ng-bind="message.subject" class=""></a></td>
-			<td ng-bind="message.sender" class="text-muted"></td>
-			<td ng-bind="message.date" class="text-muted small"></td>
-		</tr>
-	</tbody>
-</table>
-
-<div class="list-group visible-xs-block hidden-sm hidden-md hidden-lg">
-<a ng-repeat="message in listCtrl.messages" ng-href="#/view/{{message.id}}" class="list-group-item">
-	<p class="list-group-item-heading">
-		<span class="label label-primary"><b>Тема:</b></span>
-		<span ng-bind="message.subject" class="custom-message-xs-value text-primary"></span>
-	</p>
-	<p class="list-group-item-heading">
-		<span class="label label-default"><b>Отправитель:</b></span>
-		<span ng-bind="message.sender" class="custom-message-xs-value"></span>
-	</p>
-	<p class="list-group-item-text">
-		<span class="custom-message-xs-date text-muted label label-default"><b> Дата:</b></span>
-		<span ng-bind="message.date" class="custom-message-xs-value small"></span>
-	</p>
-</a>
+<div class="list-group custom-messages-list">
+	<a ng-repeat="message in listCtrl.messages" ng-href="#/view/{{message.id}}" class="list-group-item">
+		<table>
+			<tr>
+				<td class="text-right">
+					<div class="small"><b>От:</b></div>
+				</td>
+				<td>
+					<div ng-bind="message.sender | stringLengthLimit" class="list-value"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-right">
+					<div class="small"><b>Тема:</b></div>
+				</td>
+				<td>
+					<div ng-bind="message.subject | stringLengthLimit" class="list-value text-primary"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-right">
+					<div class="list-date small"><b>Дата:</b></div>
+				</td>
+				<td>
+					<div ng-bind="message.date" class="list-value text-muted small"></div>
+				</td>
+			</tr>
+		</table>
+	</a>
 </div>

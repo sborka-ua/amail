@@ -1,20 +1,46 @@
-<div id="detailCtrl">
-	<div>
-		<strong>Тема: </strong>
-		<span ng-bind="detailCtrl.message.subject"></span>
-	</div>
-	<div>
-		<strong>Отправитель: </strong>
-		<span ng-bind="detailCtrl.message.sender"></span>
-	</div>
-	<div>
-		<strong>Дата: </strong>
-		<span ng-bind="detailCtrl.message.date"></span>
-	</div>
-	<div>
-		<strong>Получатели: </strong>
-		<strong ng-bind="detailCtrl.message.recipients | arrayToStringComaSeparated"></strong>
-	</div>
-
-	<div class="messageDetail" ng-bind="detailCtrl.message.message"></div>
-</div>
+<ul class="list-group custom-messages-detail">
+<li class="list-group-item">
+	<table>
+		<tr>
+			<td class="text-right">
+				<div class="small"><b>От:</b></div>
+			</td>
+			<td>
+				<div ng-bind="detailCtrl.message.sender" class="list-value"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right list-value">
+				<div class="small"><b>Тема:</b></div>
+			</td>
+			<td>
+				<div ng-bind="detailCtrl.message.subject" class="list-value text-primary"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">
+				<div class="list-date small"><b>Дата:</b></div>
+			</td>
+			<td>
+				<div ng-bind="detailCtrl.message.date" class="list-value text-muted small"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">
+				<div class="list-date message-detail-left small"><b>Получатели:</b></div>
+			</td>
+			<td>
+				<div ng-bind="detailCtrl.message.recipients | arrayToStringComaSeparated" class="list-value message-detail-right"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">
+				<div class="message-detail-left small"><b>Сообщение:</b></div>
+			</td>
+			<td>
+				<div ng-bind="detailCtrl.message.message" class="message-detail-right mes"></div>
+			</td>
+		</tr>
+	</table>
+</li>
+</ul>
