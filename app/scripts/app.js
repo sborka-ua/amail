@@ -14,6 +14,11 @@ function emailRouteConfig($routeProvider) {
 		controllerAs: 'detailCtrl',
 		templateUrl: 'templates/detail.html'
 	})
+	.when('/contacts', {
+		controller: ContactsCtrl,
+		controllerAs: 'contactsCtrl',
+		templateUrl: 'templates/contacts.html'
+	})
 	.otherwise({
 		redirectTo: '/'
 	});

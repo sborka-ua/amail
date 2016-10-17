@@ -1,5 +1,9 @@
 angular.module('aMail.controllers', []);
 
+function ContactsCtrl(contactsFactory) {
+	this.contacts = contacts;
+}
+
 function DetailCtrl($routeParams) {
 	this.message = messages[$routeParams.id];
 }

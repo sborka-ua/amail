@@ -22,8 +22,9 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- Angular JS -->
+	<!-- Angular JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
     <script src="scripts/angular-route.js"></script>
     <script src="scripts/app.js"></script>
 	<script src="scripts/controllers.js"></script> 
@@ -36,15 +37,6 @@
 
 </head>
 <body ng-app="aMail">
-
-    <!-- topbar starts -->
-    <div class="navbar navbar-default" role="navigation">
-        <div class="navbar-inner">
-
-        </div>
-    </div>
-    <!-- /topbar ends -->
-
 <div class="container">
 	<div class="row">
 
@@ -58,18 +50,27 @@
 				<ul class="nav nav-pills nav-stacked main-menu">
 					<li class="active">
 						<a class="ajax-link" href="#/">
+							<i class="glyphicon glyphicon-envelope"></i>
 							<span>Входящие</span>
 							<span messages-count class="badge pull-right"></span>
 						</a>
 					</li>
 					<li>
 						<a class="ajax-link" href="#/">
+							<i class="glyphicon glyphicon-ok-sign"></i>
 							<span>Отправленные</span>
 						</a>
 					</li>
 					<li>
 						<a class="ajax-link" href="#/">
+							<i class="glyphicon glyphicon-trash"></i>
 							<span>Корзина</span>
+						</a>
+					</li>
+					<li class="contacts">
+						<a class="ajax-link" href="#/contacts">
+							<i class="glyphicon glyphicon-user"></i>
+							<span> Контакты</span>
 						</a>
 					</li>
 				 </ul>
