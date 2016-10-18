@@ -1,5 +1,8 @@
 <ul class="list-group custom-messages-detail">
 <li class="list-group-item">
+
+	<img class="avatar" ng-controller="ShowAvatarCtrl as showAvatarCtrl" ng-src=".{{showAvatarCtrl.showAvatar(detailCtrl.message.sender)}}"></img>
+
 	<table>
 		<tr>
 			<td class="text-right">

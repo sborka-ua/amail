@@ -14,4 +14,3 @@ function messagesCount() {
 	};
 	return directive;
 }
-
