@@ -1,15 +1,16 @@
 <div class="list-group custom-messages-list">
 	<a ng-repeat="message in listCtrl.messages" ng-href="#/view/{{message.id}}" class="list-group-item">
 
-		<img class="avatar" ng-controller="ShowAvatarCtrl as showAvatarCtrl" ng-src=".{{showAvatarCtrl.showAvatar(message.sender)}}"></img>
-
-		<table>
+		<table ng-controller="ShowAvatarAndNameCtrl as showAvatarAndNameCtrl">
 			<tr>
+				<td rowspan="3">
+					<img class="avatar" ng-src=".{{showAvatarAndNameCtrl.showAvatar(message.sender)}}"></img>
+				</td>
 				<td class="text-right">
 					<div class="small"><b>От:</b></div>
 				</td>
 				<td>
-					<div ng-bind="message.sender | stringLengthLimit" class="list-value"></div>
+					<div ng-bind="showAvatarAndNameCtrl.showNameAndSurname(message.sender)" class="list-value"></div>
 				</td>
 			</tr>
 			<tr>

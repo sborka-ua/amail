@@ -1,7 +1,7 @@
 angular.module('aMail.filters', [])
   .filter('ageCompletion', ageCompletion)
-  .filter('arrayToStringComaSeparated', arrayToStringComaSeparated)
   .filter('stringLengthLimit', stringLengthLimit)
+//  .filter('arrayToStringComaSeparated', arrayToStringComaSeparated)
 ;
 
 // фильтр возраста: 1: ' год' | 2,3,4: ' года' | 5,6,7,8,9,0: ' лет'
@@ -17,6 +17,7 @@ function ageCompletion() {
 	}
 }
 
+/*
 // разделяем запятой с пробелом всех получателей письма из массива messages.recipients
 function arrayToStringComaSeparated() {
 	return function(arr) {
@@ -24,6 +25,7 @@ function arrayToStringComaSeparated() {
 			return '<'+ arr.join('>, <') +'>';
 	}
 }
+*/
 
 // вырезаем середину строки и вставляем троеточие, если длина строки > 44 символов
 function stringLengthLimit() {

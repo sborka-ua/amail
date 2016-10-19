@@ -47,7 +47,7 @@ function messagesFactory() {
 	  {
 		id: 0,
 		sender: 'jean@somecompany.com',
-		subject: 'Hi there, old friend',
+		subject: 'Hi there, old friend Hi there, old friend Hi there, old friend Hi there, old friend Hi there, old friend Hi there, old friend ',
 		date: 'Dec 7, 2013 12:32:00',
 		recipients: ['greg@somecompany.com', 'maria@somecompany.com', 'bill@somecompany.com'],
 		message: 'Hey, we should get together for lunch sometime and catch up.'

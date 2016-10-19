@@ -61,13 +61,17 @@ header {
 	padding-right: 5px;
 }
 
-.message-detail-left,
-.message-detail-right {
+.message-detail {
+	margin-top: 15px !important;
+	padding-left: 15px;
+}
+
+.message-detail-left {
 	margin-top: 10px !important;
 }
 
-.message-detail-right.mes {
-	padding-left: 10px !important;
+.message-detail-right {
+	margin-top: 8px !important;
 }
 
 .navbar {
@@ -110,10 +114,20 @@ header {
 		padding-left: 0 !important;
 	}
 
+	.custom-messages-detail .list-group-item .avatar {
+		margin-left: 10px !important;
+		margin-right: 0 !important;
+	}
+
     #for-is-ajax {
         color: white;
         margin-top: 15px;
     }
+
+	.header.well-sm {
+		margin-left: 15px !important;
+		margin-right: 15px !important;
+	}
 
     .main-menu li:hover {
         margin-left: inherit;
@@ -123,7 +137,11 @@ header {
         margin-left: inherit;
     }
 
-      .nav-sm {
+	.message-detail.well-sm {
+		margin-left: 15px !important;
+	}
+
+    .nav-sm {
         display: block;
         margin-bottom: 10px;
         border-bottom: solid white 1px;
@@ -146,11 +164,6 @@ header {
         box-shadow: 0 0 20px black;
     }
 
-	.well-sm {
-		margin-left: 15px !important;
-		margin-right: 15px !important;
-	}
-
 }
 
 /* Tablet */
@@ -166,6 +179,11 @@ header {
     .box-icon {
         display: none;
     }
+
+	.header.well-sm {
+		margin-left: 15px !important;
+		margin-right: 15px !important;
+	}
 
     .main-menu-span {
         width: 6.2% !important;

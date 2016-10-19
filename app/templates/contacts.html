@@ -1,10 +1,11 @@
 <ul class="list-group custom-contacts">
 <li ng-repeat="contact in contactsCtrl.contacts" class="list-group-item">
 
-	<img class="avatar" ng-src=".{{contact.avatar}}"></img>
-
 	<table>
 		<tr>
+			<td rowspan="3">
+				<img class="avatar" ng-src=".{{contact.avatar}}"></img>
+			</td>
 			<td>
 				<div>
 					<span ng-bind="contact.name"></span> <span ng-bind="contact.surname"></span>
