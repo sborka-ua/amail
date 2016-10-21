@@ -1,9 +1,3 @@
-.avatar {
-	border-radius: 50%;
-	float: left;
-	margin-right: 10px;
-}
-
 .center-block {
     float: none !important;
     text-align: center;
@@ -45,20 +39,30 @@ footer {
     clear: both;
 }
 
-header {
+.header.well-sm {
 	margin-top: 20px !important;
-}
-
-.main-menu li a {
-	padding: 10px 10px;
 }
 
 .main-menu .contacts  {
 	border-top: 1px solid blue;
 }
 
+.main-menu .contacts.active  {
+	border-top: 1px solid white;
+}
+
 .main-menu .glyphicon  {
 	padding-right: 5px;
+}
+
+.main-menu  > li > a > .badge {
+	color: rgb(255, 255, 255) !important;
+	background-color: rgb(51, 122, 183) !important;
+}
+
+.main-menu  > li.active > a > .badge {
+	color: rgb(51, 122, 183) !important;
+	background-color: rgb(255, 255, 255) !important;
 }
 
 .message-detail {
@@ -77,6 +81,11 @@ header {
 .navbar {
 	border: none;
     margin-bottom: 0 !important;
+}
+
+.noscript-alert {
+	border: 1px dashed grey;
+	border-radius: 5px;
 }
 
 .sidebar-nav {
@@ -100,6 +109,10 @@ header {
 /* Mobile */
 @media only screen and (max-width: 767px) {
 
+	.avatar {
+		margin-bottom: 5px;
+	}
+
     .copyright {
         text-align: center;
     }
@@ -114,39 +127,10 @@ header {
 		padding-left: 0 !important;
 	}
 
-	.custom-messages-detail .list-group-item .avatar {
-		margin-left: 10px !important;
-		margin-right: 0 !important;
-	}
-
-    #for-is-ajax {
-        color: white;
-        margin-top: 15px;
-    }
-
 	.header.well-sm {
 		margin-left: 15px !important;
 		margin-right: 15px !important;
 	}
-
-    .main-menu li:hover {
-        margin-left: inherit;
-    }
-
-    .main-menu li.active {
-        margin-left: inherit;
-    }
-
-	.message-detail.well-sm {
-		margin-left: 15px !important;
-	}
-
-    .nav-sm {
-        display: block;
-        margin-bottom: 10px;
-        border-bottom: solid white 1px;
-        padding-bottom: 10px;
-    }
 
     .powered-by {
         text-align: center;
@@ -160,39 +144,18 @@ header {
         padding: 0;
     }
 
-    .table-wrapper .pinned {
-        box-shadow: 0 0 20px black;
-    }
-
 }
 
 /* Tablet */
 @media only screen and (min-width: 768px) and (max-width: 979px) {
-    .box-header h2 {
-        font-size: 13px !important;
-    }
 
-    .box-header h3 {
-        font-size: 11px !important;
-    }
-
-    .box-icon {
-        display: none;
-    }
-
-	.header.well-sm {
-		margin-left: 15px !important;
-		margin-right: 15px !important;
+	.avatar {
+		margin: 0 auto;
 	}
 
-    .main-menu-span {
-        width: 6.2% !important;
-        margin-right: 4%;
-    }
-
-    .top-menu > li i {
-        display: none;
-    }
+	#content {
+		padding-right: 1px !important;
+	}
 
 }
 
@@ -205,6 +168,10 @@ header {
         -o-transition: .5s;
         transition: .5s;
     }
+
+	.avatar {
+		margin: 0 auto;
+	}
 
 	#content {
 		padding-right: 1px !important;

@@ -1,0 +1,45 @@
+<section class="list-group custom-users">
+	<a ng-repeat="user in listUsersCtrl.users" class="list-group-item">
+		<div class="panel panel-default">
+
+			<div class="panel-heading">
+				<h3 ng-bind="user.name" class="panel-title"></h3>
+			</div>
+
+			<div class="panel-body">
+				<div class="row">
+
+					<div class="col-sm-2 col-md-3">
+						<img ng-src="images/{{user.id}}.jpg" class="avatar img-responsive img-circle">
+					</div>
+
+					<div class="col-sm-10 col-md-9">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td class="col-xs-2">Ник</td>
+
+									<td ng-bind="user.username" class="col-xs-10"></td>
+								</tr>
+								<tr>
+									<td>Город</td>
+
+									<td ng-bind="user.address.city"></td>
+								</tr>
+								<tr>
+									<td>E-mail</td>
+
+									<td><a ng-href="mailto:{{user.email}}" ng-bind="user.email" data-toggle="tooltip" title="написать письмо"></a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div> <!-- /row ends -->
+			</div> <!-- /panel-body ends -->
+
+			<div class="panel-footer"></div>
+
+		</div> <!-- /panel panel-default -->
+	</a>
+</section>

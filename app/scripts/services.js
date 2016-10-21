@@ -1,44 +1,29 @@
 angular.module('aMail.services', [])
-  .factory('contactsFactory', contactsFactory)
+  .service('menuActiveClassService', menuActiveClassService)
   .factory('messagesFactory', messagesFactory)
+  .factory('usersFactory', usersFactory)
 ;
 
-// Some fake contacts
-function contactsFactory() {
-	return contacts = [
-	  {
-		id: 0,
-		name: 'Jean',
-		surname: 'Air',
-		email: 'jean@somecompany.com',
-		avatar: '/images/jean.jpg',
-		age: '25'
-	  },
-	  {
-		id: 1,
-		name: 'Greg',
-		surname: 'Hopkins',
-		email: 'greg@somecompany.com',
-		avatar: '/images/greg.jpg',
-		age: '20'
-	  },
-	  {
-		id: 2,
-		name: 'Maria',
-		surname: 'Jackson',
-		email: 'maria@somecompany.com',
-		avatar: '/images/maria.jpg',
-		age: '21'
-	  },
-	  {
-		id: 3,
-		name: 'Bill',
-		surname: 'Smith',
-		email: 'bill@somecompany.com',
-		avatar: '/images/bill.jpg',
-		age: '24'
-	  }
-	];
+// добавить-удалить класс 'add' элементам 'li' меню 'menu'
+function menuActiveClassService() {
+	var addClass, removeClass;
+
+	// find(li): здесь li - не набор тегов LI, а конкретный тег, имеющий свой класс.
+	// при вызове в контролере, вместо этого li нужно указать его класс
+	addClass = function(add, menu, li) {
+		removeClass(add, menu);
+		angular.element(document.querySelector(menu)).find(li).addClass(add);
+	}
+
+	// find('li'): здесь 'li' - массив всех тегов LI в меню
+	removeClass = function(add, menu) {
+		angular.element(document.querySelector(menu)).find('li').removeClass(add);
+	}
+
+	return {
+		addClass: addClass,
+		removeClass: removeClass
+	}
 }
 
 // Some fake emails
@@ -74,3 +59,44 @@ function messagesFactory() {
 	];
 }
 
+// Some fake contacts
+function usersFactory() {
+	return users = [
+	  {
+		id: 0,
+		name: 'Leanne Graham',
+		username: 'Bret',
+		email: 'Sincere@april.biz',
+		address: {
+		  city: "Gwenborough"
+	    }
+	  },
+	  {
+		id: 1,
+		name: 'Ervin Howell',
+		username: 'Antonette',
+		email: 'Shanna@melissa.tv',
+		address: {
+		  city: "Wisokyburgh"
+	    }
+	  },
+	  {
+		id: 2,
+		name: 'Clementine Bauch',
+		username: 'Samantha',
+		email: 'Nathan@yesenia.net',
+		address: {
+		  city: "McKenziehaven"
+	    }
+	  },
+	  {
+		id: 3,
+		name: 'Patricia Lebsack',
+		username: 'Karianne',
+		email: 'Julianne.OConner@kory.org',
+		address: {
+		  city: "South Elvis"
+	    }
+	  }
+	];
+}

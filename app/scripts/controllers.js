@@ -1,36 +1,42 @@
 angular.module('aMail.controllers', [])
-  .controller('ShowAvatarAndNameCtrl', ShowAvatarAndNameCtrl)
+//  .controller('AvaCtrl', AvaCtrl)
 ;
 
-function ContactsCtrl(contactsFactory) {
-	this.contacts = contacts;
-}
-
-function DetailCtrl($routeParams) {
-	this.message = messages[$routeParams.id];
-}
-
-function ListCtrl(messagesFactory) {
+// вывести список писем
+function ListMessagesCtrl(messagesFactory, menuActiveClassService) {
 	this.messages = messages;
-	
+
+	menuActiveClassService.addClass('active', '.main-menu', '.inbox');
 }
 
-function MessagesCountCtrl(messagesFactory) {
-	this.messagesLength = messages.length;
+// вывести список пользователей
+function ListUsersCtrl(usersFactory, menuActiveClassService) {
+	this.users = users;
+
+	menuActiveClassService.addClass('active', '.main-menu', '.contacts');
 }
 
-function ShowAvatarAndNameCtrl(contactsFactory) {
-	this.showAvatar = function (sender) {
-		var contact = contacts.filter(function(item) {
-			return item.email == sender;
-		})[0];
-		return contact.avatar;
-	};
+// показать содержимое письма с конкретным id
+function ViewMessageCtrl($routeParams, menuActiveClassService) {
+	this.message = messages[$routeParams.id];
 
-	this.showNameAndSurname = function (sender) {
-		var contact = contacts.filter(function(item) {
-			return item.email == sender;
-		})[0];
-		return contact.name +' '+ contact.surname;
-	};
+	menuActiveClassService.removeClass('active', '.main-menu');
 }
+
+/**
+function AvaCtrl() {
+	this.users = [];
+
+		this.users.push('https://randomuser.me/api/portraits/thumb/men/7.jpg');
+		this.users.push('https://randomuser.me/api/portraits/thumb/men/71.jpg');
+		this.users.push('https://randomuser.me/api/portraits/thumb/men/86.jpg');
+		this.users.push('https://randomuser.me/api/portraits/thumb/women/6.jpg');
+		this.users.push('https://randomuser.me/api/portraits/thumb/women/12.jpg');
+		this.users.push('https://randomuser.me/api/portraits/thumb/women/21.jpg');
+		this.users.push('https://randomuser.me/api/portraits/thumb/women/64.jpg');
+		this.users.push('https://randomuser.me/api/portraits/thumb/women/82.jpg');
+}
+
+ * men: 86, 71, 7
+ * women: 6, 12, 64, 82, 21
+ */

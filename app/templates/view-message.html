@@ -1,0 +1,39 @@
+<section class="list-group custom-messages-detail">
+	<a ng-href="" data-toggle="tooltip" title="ответить" class="list-group-item">
+
+		<table>
+			<tbody>
+				<tr>
+					<td class="text-right">
+						<div class="small"><b>От:</b></div>
+					</td>
+
+					<td>
+						<a ng-bind="viewMessageCtrl.message.sender" class="list-value"></a>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-right">
+						<div class="list-value small"><b>Тема:</b></div>
+					</td>
+
+					<td>
+						<div ng-bind="viewMessageCtrl.message.subject" class="list-value"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-right">
+						<div class="list-date small"><b>Дата:</b></div>
+					</td>
+
+					<td>
+						<div ng-bind="viewMessageCtrl.message.date" class="list-value text-muted small"></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</a>
+</section>
+
+<section ng-bind="viewMessageCtrl.message.message" class="message-detail well well-sm"></section>

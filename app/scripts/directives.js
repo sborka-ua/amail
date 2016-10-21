@@ -1,16 +1,33 @@
 angular.module('aMail.directives', [])
+  .directive('usersCount', usersCount)
   .directive('messagesCount', messagesCount)
 ;
 
-// Counting messages
+// Count contacts
+function usersCount() {
+	var directive = {
+		restrict: 'A',
+		scope: {},
+		template: '{{usersCountCtrl.length}}',
+		controllerAs: 'usersCountCtrl',
+		controller: function(usersFactory) {
+			this.length = users.length;
+		}
+	};
+	return directive;
+}
+
+// Count messages
 function messagesCount() {
 	var directive = {
 		restrict: 'A',
 		scope: {},
-		bindToController: true,
-		template: '{{messagesCountCtrl.messagesLength}}',
+		template: '{{messagesCountCtrl.length}}',
 		controllerAs: 'messagesCountCtrl',
-		controller: MessagesCountCtrl
+		controller: function(messagesFactory) {
+			this.length = messages.length;
+		}
 	};
 	return directive;
 }
+
