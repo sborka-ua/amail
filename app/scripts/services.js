@@ -1,8 +1,44 @@
 angular.module('aMail.services', [])
+  .service('httpGetService', httpGetService)
   .service('menuActiveClassService', menuActiveClassService)
-  .factory('messagesFactory', messagesFactory)
-  .factory('usersFactory', usersFactory)
+  .factory('messagesCacheFactory', messagesCacheFactory)
+  .factory('usersCacheFactory', usersCacheFactory)
 ;
+
+// $http.get запрос к json-файлу для кеширования в $cacheFactory. принимает: url, cache, responseFunc, rejectObj
+function httpGetService($http) {
+	return {
+		messagesRejectObj: {
+			userId: 'error',
+			id: '',
+			title: 'Ошибка !!! messages not found',
+			body: ''
+		},
+
+		usersRejectObj: {
+			username: 'error',
+			address: '',
+			email: '',
+			name: 'Ошибка !!! users not found'
+		},
+
+		httpGet: function(url, cache, responseFunc, rejectObj) {
+			return $http.get(url).then(
+				function(response) {
+					angular.forEach(response.data, function(value, index) {
+						responseFunc(value, index);
+					});
+				},
+
+				function(reject) {
+					alert('ERROR! users not found. status: '+ reject.status +', data: '+ reject.data);
+
+					cache.put(0, rejectObj);
+				}
+			);
+		} // httpGet ends
+	}
+}
 
 // добавить-удалить класс 'add' элементам 'li' меню 'menu'
 function menuActiveClassService() {
@@ -26,77 +62,12 @@ function menuActiveClassService() {
 	}
 }
 
-// Some fake emails
-function messagesFactory() {
-	return messages = [
-	  {
-		id: 0,
-		sender: 'jean@somecompany.com',
-		subject: 'Hi there, old friend Hi there, old friend Hi there, old friend Hi there, old friend Hi there, old friend Hi there, old friend ',
-		date: 'Dec 7, 2013 12:32:00',
-		recipients: ['greg@somecompany.com', 'maria@somecompany.com', 'bill@somecompany.com'],
-		message: 'Hey, we should get together for lunch sometime and catch up.'
-		+'There are many things we should collaborate on this year.'
-	  },
-	  {
-		id: 1,
-		sender: 'maria@somecompany.com',
-		subject: 'Where did you leave my laptop?',
-		date: 'Dec 7, 2013 8:15:12',
-		recipients: ['bill@somecompany.com'],
-		message: 'I thought you were going to put it in my desk drawer.'
-		+'But it does not seem to be there.'
-	  },
-	  {
-	id: 2,
-		sender: 'bill@somecompany.com',
-		subject: 'Lost python',
-		date: 'Dec 6, 2013 20:35:02',
-		recipients: ['greg@somecompany.com', 'jean@somecompany.com'],
-		message: "Nobody panic, but my pet python is missing from her cage."
-		+"She doesn't move too fast, so just call me if you see her."
-	  }
-	];
+// кеш списка писем
+function messagesCacheFactory($cacheFactory) {
+	return $cacheFactory('messages-сache');
 }
 
-// Some fake contacts
-function usersFactory() {
-	return users = [
-	  {
-		id: 0,
-		name: 'Leanne Graham',
-		username: 'Bret',
-		email: 'Sincere@april.biz',
-		address: {
-		  city: "Gwenborough"
-	    }
-	  },
-	  {
-		id: 1,
-		name: 'Ervin Howell',
-		username: 'Antonette',
-		email: 'Shanna@melissa.tv',
-		address: {
-		  city: "Wisokyburgh"
-	    }
-	  },
-	  {
-		id: 2,
-		name: 'Clementine Bauch',
-		username: 'Samantha',
-		email: 'Nathan@yesenia.net',
-		address: {
-		  city: "McKenziehaven"
-	    }
-	  },
-	  {
-		id: 3,
-		name: 'Patricia Lebsack',
-		username: 'Karianne',
-		email: 'Julianne.OConner@kory.org',
-		address: {
-		  city: "South Elvis"
-	    }
-	  }
-	];
+// кеш списка пользователей
+function usersCacheFactory($cacheFactory) {
+	return $cacheFactory('users-сache');
 }

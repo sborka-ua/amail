@@ -1,7 +1,6 @@
 <section class="list-group custom-users">
 	<a ng-repeat="user in listUsersCtrl.users" class="list-group-item">
 		<div class="panel panel-default">
-
 			<div class="panel-heading">
 				<h3 ng-bind="user.name" class="panel-title"></h3>
 			</div>
@@ -27,7 +26,7 @@
 									<td ng-bind="user.address.city"></td>
 								</tr>
 								<tr>
-									<td>E-mail</td>
+									<td>Email</td>
 
 									<td><a ng-href="mailto:{{user.email}}" ng-bind="user.email" data-toggle="tooltip" title="написать письмо"></a></td>
 								</tr>

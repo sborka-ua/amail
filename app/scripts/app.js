@@ -3,11 +3,10 @@ angular.module('aMail', [
   'ngRoute',
   'aMail.controllers',
   'aMail.directives',
-  'aMail.filters',
+//  'aMail.filters',
   'aMail.services'
-]).
-config(emailRouteConfig)
-;
+])
+.config(emailRouteConfig);
 
 function emailRouteConfig($routeProvider) {
 	$routeProvider.
@@ -15,18 +14,18 @@ function emailRouteConfig($routeProvider) {
 		templateUrl: 'templates/list-messages.html',
 		controllerAs: 'listMessagesCtrl',
 		controller: ListMessagesCtrl
-	}).
-	when('/contacts', {
+	})
+	.when('/contacts', {
 		templateUrl: 'templates/list-users.html',
 		controllerAs: 'listUsersCtrl',
 		controller: ListUsersCtrl
-	}).
-	when('/view-message/:id', {
+	})
+	.when('/view-message/:id', {
 		templateUrl: 'templates/view-message.html',
 		controllerAs: 'viewMessageCtrl',
 		controller: ViewMessageCtrl
-	}).
-	otherwise({
+	})
+	.otherwise({
 		redirectTo: '/'
 	});
 };

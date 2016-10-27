@@ -9,7 +9,20 @@
 					</td>
 
 					<td>
-						<a ng-bind="viewMessageCtrl.message.sender" class="list-value"></a>
+						<div class="list-value text-default">
+							<span ng-bind="viewMessageCtrl.message.name"></span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-right">
+						<div class="small"><b>email:</b></div>
+					</td>
+
+					<td>
+						<div class="list-value text-primary">
+							<span ng-bind="viewMessageCtrl.message.email"></span>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -18,16 +31,7 @@
 					</td>
 
 					<td>
-						<div ng-bind="viewMessageCtrl.message.subject" class="list-value"></div>
-					</td>
-				</tr>
-				<tr>
-					<td class="text-right">
-						<div class="list-date small"><b>Дата:</b></div>
-					</td>
-
-					<td>
-						<div ng-bind="viewMessageCtrl.message.date" class="list-value text-muted small"></div>
+						<div ng-bind="viewMessageCtrl.message.title" class="list-value"></div>
 					</td>
 				</tr>
 			</tbody>
@@ -36,4 +40,4 @@
 	</a>
 </section>
 
-<section ng-bind="viewMessageCtrl.message.message" class="message-detail well well-sm"></section>
+<section ng-bind="viewMessageCtrl.message.body" class="message-detail well well-sm"></section>

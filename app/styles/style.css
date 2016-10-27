@@ -25,9 +25,10 @@
 	vertical-align: top !important;
 }
 
-.custom-messages-list .list-date,
-.custom-messages-detail .list-date {
-	margin-left: 15px !important;
+.custom-contacts tr td .small,
+.custom-messages-list tr td .small,
+.custom-messages-detail tr td .small {
+	margin-top: 2px !important;
 }
 
 .custom-messages-list .list-value,
@@ -39,8 +40,12 @@ footer {
     clear: both;
 }
 
-.header.well-sm {
-	margin-top: 20px !important;
+.header  {
+	margin-top: 10px;
+}
+
+.main-menu .active > a  {
+	cursor: default;
 }
 
 .main-menu .contacts  {
@@ -55,12 +60,12 @@ footer {
 	padding-right: 5px;
 }
 
-.main-menu  > li > a > .badge {
-	color: rgb(255, 255, 255) !important;
-	background-color: rgb(51, 122, 183) !important;
+.main-menu  a .badge {
+	color: rgb(51, 122, 183) !important;
+	background-color: rgb(255, 255, 255) !important;
 }
 
-.main-menu  > li.active > a > .badge {
+.main-menu  .active a .badge {
 	color: rgb(51, 122, 183) !important;
 	background-color: rgb(255, 255, 255) !important;
 }
