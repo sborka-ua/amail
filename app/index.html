@@ -9,6 +9,8 @@
 	
 	в самом низу есть примере, как сделать двухстороннее связывание данных с элементом contentEditable  на Angular
 
+- поиск
+
 -->
 
 <head>
@@ -49,7 +51,7 @@
 	<script src="scripts/directives.js"></script> 
 	<script src="scripts/services.js"></script>
 
-<!-- <script src="scripts/filters.js"></script> -->
+<!-- <script src="scripts/filters.js"></script>
 
 	<!-- Bootstrap JS -->
 	<script src="vendor/bootstrap.min.js"></script>
@@ -61,40 +63,62 @@
 <div class="container">
 	<div class="row">
 
-	<header class="header well well-sm">
-		<h4 class="text-center text-primary">
-			aMail Service
-		</h4>
-	</header>
+    <!-- topbar starts -->
+    <nav id="top-section" class="navbar navbar-default" role="navigation">
+
+        <div class="navbar-inner">
+            <button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+						<form class="navbar-search col-xs-8 col-sm-6 pull-right">
+							<input placeholder="поиск" class="search-query form-control" name="query" type="text"></form>
+
+					<!-- user dropdown starts
+						<div class="btn-group pull-right">
+							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<i class="glyphicon glyphicon-user"></i>
+								<span class="hidden-xs">Контакты</span>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">'+
+								<li><a ng-bind="" href="#/"></a></li>
+							</ul>
+						</div>
+					user dropdown ends -->
+
+		</div>
+    </nav>
+    <!-- topbar ends -->
 
 <!-- tests
 <header class="header well well-sm"><h5 class="text-center text-primary"><hr><test></test><hr></h5></header>
 /tests -->
 
-       <noscript>
-            <div class="noscript-alert alert alert-block center-block text-danger col-xs-10 col-xs-offset-1">
-                <h4 class="alert-heading">Warning!</h4>
-                <p>You need to have JavaScript enabled to use this site</p>
-				<br>
-                <h4 class="alert-heading">Внимание!</h4>
-                <p>Чтобы пользоваться этим сервисом, включите в браузере JavaScript</p>
-            </div>
-        </noscript>
-
         <!-- left menu starts -->
 		<section class="sidebar-nav col-sm-3">
-			<nav class="navbar" role="navigation">
-				<ul class="nav nav-pills nav-stacked main-menu">
-					<li class="inbox">
+			<nav class="navbar-canvas" role="navigation">
+
+				<ul id="bs-navbar-collapse-1" class="nav nav-pills nav-stacked main-menu collapse navbar-collapse">
+					<li class="new-letter">
 						<a class="" href="#/">
 							<i class="glyphicon glyphicon-envelope"></i>
+							<span>Написать письмо</span>
+						</a>
+					</li>
+					<li class="inbox">
+						<a class="" href="#/">
+							<i class="glyphicon glyphicon-folder-open"></i>
 							<span>Входящие</span>
 							<span messages-count class="badge pull-right"></span>
 						</a>
 					</li>
 					<li class="outbox">
 						<a class="" href="#/">
-							<i class="glyphicon glyphicon-ok-sign"></i>
+							<i class="glyphicon glyphicon-briefcase"></i>
 							<span>Отправленные</span>
 						</a>
 					</li>
@@ -112,10 +136,22 @@
 						</a>
 					</li>
 				 </ul>
+
 			</nav>
 		</section>
+
         <div class="clearfix visible-xs-block"></div>
 		<!-- /left menu ends -->
+
+       <noscript>
+            <div class="noscript-alert alert alert-block center-block text-danger col-xs-10 col-xs-offset-1 col-sm-5">
+                <h4 class="alert-heading">Warning!</h4>
+                <p>You need to have JavaScript enabled to use this site</p>
+				<br>
+                <h4 class="alert-heading">Внимание!</h4>
+                <p>Чтобы пользоваться этим сервисом, включите в браузере JavaScript</p>
+            </div>
+        </noscript>
 
         <section id="content" class="col-sm-9">
             <!-- content starts -->
@@ -125,20 +161,51 @@
 			<!-- /content ends -->
 		</section>
 
-	</div> <!-- /row ends -->
-
 	<hr>
 
-    <footer class="row">
+    <footer>
         <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="https://github.com/sborka-ua" target="_blank">Vadim Zhivitskiy</a> 2016</p>
 
         <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
                 href="https://github.com/sborka-ua/amail">aMail</a></p>
     </footer>
 
+	</div> <!-- /row ends -->
 </div> <!-- /container ends -->
 
 <!-- external javascript -->
+
+<script>
+$(function(){
+
+	// ToggleClass 'active' with .sidebar-nav
+    $('.navbar-toggle').click(function (e) {
+        e.preventDefault();
+        $('.sidebar-nav').toggleClass('active');
+        $(this).toggleClass('active');
+    });
+
+    // Hide responsive navbar on clicking outside
+    $(document).mouseup(function (e) {
+
+		 // if click target isn't the container and isn't the .navbar-toggle button ...
+        if ($('.sidebar-nav').hasClass('active')
+			&& (!$('.sidebar-nav').is(e.target)
+				&& $('.sidebar-nav').has(e.target).length === 0
+				&& !$('.navbar-toggle').is(e.target)
+				&& $('.navbar-toggle').has(e.target).length === 0
+
+				// ... or it's a tag (a, span or i) inside the container's li
+				|| $('.sidebar-nav .main-menu li').find('a, span, i').is(e.target)
+				)
+            )
+        {
+            e.stopPropagation();
+            $('.navbar-toggle').click();
+        }
+    });
+});
+</script>
 
 </body>
 </html>
