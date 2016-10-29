@@ -1,5 +1,4 @@
 angular.module('aMail', [
-  'ngResource',
   'ngRoute',
   'aMail.controllers',
   'aMail.directives',
@@ -15,7 +14,7 @@ function emailRouteConfig($routeProvider) {
 		controllerAs: 'listMessagesCtrl',
 		controller: ListMessagesCtrl
 	})
-	.when('/contacts', {
+	.when('/users', {
 		templateUrl: 'templates/list-users.html',
 		controllerAs: 'listUsersCtrl',
 		controller: ListUsersCtrl
@@ -24,6 +23,11 @@ function emailRouteConfig($routeProvider) {
 		templateUrl: 'templates/view-message.html',
 		controllerAs: 'viewMessageCtrl',
 		controller: ViewMessageCtrl
+	})
+	.when('/list-user-messages/:id', {
+		templateUrl: 'templates/list-user-messages.html',
+		controllerAs: 'listUserMessagesCtrl',
+		controller: ListUserMessagesCtrl
 	})
 	.otherwise({
 		redirectTo: '/'

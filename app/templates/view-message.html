@@ -1,14 +1,16 @@
 <section class="list-group custom-messages-detail">
-	<a ng-href="" data-toggle="tooltip" title="ответить" class="list-group-item">
+	<a data-toggle="tooltip" title="ответить" class="list-group-item">
 
 		<table>
 			<tbody>
 				<tr>
-					<td class="text-right">
-						<div class="small"><b>От:</b></div>
+					<td>
+						<div class="list-value text-default">
+							<img ng-src="images/{{viewMessageCtrl.message.userId}}.jpg" class="avatar img-responsive img-circle">
+						</div>
 					</td>
 
-					<td>
+					<td class="list-name">
 						<div class="list-value text-default">
 							<span ng-bind="viewMessageCtrl.message.name"></span>
 						</div>

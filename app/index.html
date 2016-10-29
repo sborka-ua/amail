@@ -1,18 +1,5 @@
 <!DOCTYPE html>
 <html>
-
-<!-- !!! СДЕЛАТЬ !!!
-
-- редактирование данных пользователей из html с сохранением результата в кеш
-
-	https://github.com/AngularjsRUS/angular-doc/blob/master/docs/content/guide/forms.ngdoc
-	
-	в самом низу есть примере, как сделать двухстороннее связывание данных с элементом contentEditable  на Angular
-
-- поиск
-
--->
-
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,90 +12,39 @@
 	<!-- Bootstrap CSS  -->
 	<link href="styles/bootstrap.min.css" rel="stylesheet">
 
-<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
-
 	<!-- Styles -->
 	<link href="styles/style.css" rel="stylesheet">
-
-	<!-- jQuery JS -->
-	<script src="vendor/jquery.min.js"></script>
-
-<!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script> -->
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<!-- Angular JS -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-resource.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
-
-	<!-- App modules -->
-	<script src="scripts/app.js"></script>
-	<script src="scripts/controllers.js"></script> 
-	<script src="scripts/directives.js"></script> 
-	<script src="scripts/services.js"></script>
-
-<!-- <script src="scripts/filters.js"></script>
-
-	<!-- Bootstrap JS -->
-	<script src="vendor/bootstrap.min.js"></script>
-
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
-
 </head>
 <body ng-app="aMail">
+
 <div class="container">
 	<div class="row">
 
-    <!-- topbar starts -->
-    <nav id="top-section" class="navbar navbar-default" role="navigation">
+		<!-- topbar -->
+		<header id="top-section" class="navbar navbar-default" role="navigation">
+			<div class="navbar-inner">
+				<navbar-toggle></navbar-toggle>
+				<live-search></live-search>
 
-        <div class="navbar-inner">
-            <button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+				<a href="https://github.com/sborka-ua/amail" class="github-avatar pull-right" target="_blank">
+					<svg height="32" width="32" viewBox="0 0 16 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" fill-opacity="0.5" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
 
-						<form class="navbar-search col-xs-8 col-sm-6 pull-right">
-							<input placeholder="поиск" class="search-query form-control" name="query" type="text"></form>
+					<span class="hidden-xs" style="">aMail on GitHub</span>
+				</a>
+			</div>
+		</header>
+		<!-- topbar -->
 
-					<!-- user dropdown starts
-						<div class="btn-group pull-right">
-							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-								<i class="glyphicon glyphicon-user"></i>
-								<span class="hidden-xs">Контакты</span>
-								<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">'+
-								<li><a ng-bind="" href="#/"></a></li>
-							</ul>
-						</div>
-					user dropdown ends -->
-
-		</div>
-    </nav>
-    <!-- topbar ends -->
-
-<!-- tests
-<header class="header well well-sm"><h5 class="text-center text-primary"><hr><test></test><hr></h5></header>
-/tests -->
-
-        <!-- left menu starts -->
+		<!-- left menu -->
 		<section class="sidebar-nav col-sm-3">
 			<nav class="navbar-canvas" role="navigation">
-
 				<ul id="bs-navbar-collapse-1" class="nav nav-pills nav-stacked main-menu collapse navbar-collapse">
-					<li class="new-letter">
-						<a class="" href="#/">
-							<i class="glyphicon glyphicon-envelope"></i>
-							<span>Написать письмо</span>
-						</a>
-					</li>
 					<li class="inbox">
 						<a class="" href="#/">
 							<i class="glyphicon glyphicon-folder-open"></i>
@@ -128,84 +64,70 @@
 							<span>Корзина</span>
 						</a>
 					</li>
-					<li class="contacts">
-						<a class="" href="#/contacts">
+					<li class="users">
+						<a class="" href="#/users">
 							<i class="glyphicon glyphicon-user"></i>
 							<span>Контакты</span>
 							<span users-count class="badge pull-right"></span>
 						</a>
 					</li>
 				 </ul>
-
 			</nav>
 		</section>
+		<!-- /left menu -->
 
-        <div class="clearfix visible-xs-block"></div>
-		<!-- /left menu ends -->
+		<div class="clearfix visible-xs-block"></div>
 
-       <noscript>
-            <div class="noscript-alert alert alert-block center-block text-danger col-xs-10 col-xs-offset-1 col-sm-5">
-                <h4 class="alert-heading">Warning!</h4>
-                <p>You need to have JavaScript enabled to use this site</p>
+		<noscript>
+			<div class="noscript-alert alert alert-block center-block text-danger col-xs-10 col-xs-offset-1 col-sm-5">
+				<h4 class="alert-heading">Warning!</h4>
+				<p>You need to have JavaScript enabled to use this site</p>
 				<br>
-                <h4 class="alert-heading">Внимание!</h4>
-                <p>Чтобы пользоваться этим сервисом, включите в браузере JavaScript</p>
-            </div>
-        </noscript>
+				<h4 class="alert-heading">Внимание!</h4>
+				<p>Чтобы пользоваться этим сервисом, включите в браузере JavaScript</p>
+			</div>
+		</noscript>
 
-        <section id="content" class="col-sm-9">
-            <!-- content starts -->
-
+		<!-- content -->
+		<section id="content" class="col-sm-9">
 			<div ng-view></div>
-
-			<!-- /content ends -->
 		</section>
+		<!-- /content -->
 
-	<hr>
+		<footer>
+			<p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="https://github.com/sborka-ua" target="_blank">Vadim Zhivitskiy</a> 2016</p>
 
-    <footer>
-        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="https://github.com/sborka-ua" target="_blank">Vadim Zhivitskiy</a> 2016</p>
+			<p class="col-md-3 col-sm-3 col-xs-12 powered-by">
+				<a href="https://github.com/sborka-ua/amail" target="_blank">
 
-        <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
-                href="https://github.com/sborka-ua/amail">aMail</a></p>
-    </footer>
+					<svg height="16" width="16" viewBox="0 0 16 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" fill-opacity="0.5" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
 
-	</div> <!-- /row ends -->
-</div> <!-- /container ends -->
+					aMail on GitHub
+				</a></p>
+		</footer>
+
+	</div> <!-- /row -->
+</div> <!-- /container -->
 
 <!-- external javascript -->
 
-<script>
-$(function(){
+<!-- jQuery JS -->
+<script src="vendor/jquery.min.js"></script>
 
-	// ToggleClass 'active' with .sidebar-nav
-    $('.navbar-toggle').click(function (e) {
-        e.preventDefault();
-        $('.sidebar-nav').toggleClass('active');
-        $(this).toggleClass('active');
-    });
+<!-- Angular JS -->
+<script src="vendor/angular.min.js"></script>
+<script src="vendor/angular-route.min.js"></script>
 
-    // Hide responsive navbar on clicking outside
-    $(document).mouseup(function (e) {
+<!-- App modules -->
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers.js"></script> 
+<script src="scripts/directives.js"></script> 
+<script src="scripts/services.js"></script>
 
-		 // if click target isn't the container and isn't the .navbar-toggle button ...
-        if ($('.sidebar-nav').hasClass('active')
-			&& (!$('.sidebar-nav').is(e.target)
-				&& $('.sidebar-nav').has(e.target).length === 0
-				&& !$('.navbar-toggle').is(e.target)
-				&& $('.navbar-toggle').has(e.target).length === 0
+<!-- <script src="scripts/filters.js"></script>
 
-				// ... or it's a tag (a, span or i) inside the container's li
-				|| $('.sidebar-nav .main-menu li').find('a, span, i').is(e.target)
-				)
-            )
-        {
-            e.stopPropagation();
-            $('.navbar-toggle').click();
-        }
-    });
-});
-</script>
+<!-- Bootstrap JS -->
+<script src="vendor/bootstrap.min.js"></script>
 
 </body>
 </html>

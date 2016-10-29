@@ -1,21 +1,35 @@
 angular.module('aMail.controllers', []);
 
-var ListMessagesCtrl,
-	ListUsersCtrl,
-	ViewMessageCtrl;
+/**
+ * ListMessagesCtrl - вывести список писем, добавить к каждому письму email и имя пользователя
+ *
+ * ListUsersCtrl - вывести список пользователей
+ *
+ * ViewMessageCtrl - показать содержимое письма с конкретным id
+ *
+ * ListUserMessagesCtrl - вывести список писем пользователя с конкретным id
+ */
 
-// вывести список писем, добавить к каждому письму email и имя пользователя
-ListMessagesCtrl = function(httpGetService,
-							messagesCacheFactory,
-							usersCacheFactory,
-							menuActiveClassService
+function ListMessagesCtrl(httpGetService,
+						  messagesCacheFactory,
+						  usersCacheFactory,
+						  liveSearchService,
+						  menuActiveClassService,
+						  scrollTopService
 ){
 	var messagesCache = messagesCacheFactory;
 	var usersCache = usersCacheFactory;
 	var vm = this;
 
 	vm.messages = [];
+	vm.liveSearchService = liveSearchService;
 
+	// обнулить поле живого поиска
+	vm.liveSearchService.searchText = '';
+	vm.liveSearchService.placeholder = 'поиск писем';
+
+	// добавить пользователей из users.json в кеш-фабрику,
+	// добавить письма из messages.json в кеш-фабрику и в массив vm.messages
 	if(!usersCache.get(0)) {
 
 		// users.json
@@ -47,6 +61,7 @@ ListMessagesCtrl = function(httpGetService,
 							   httpGetService.messagesRejectObj
 		);
 	}
+
 	// переопределяется объект, возвращаемый кеш-фабрикой messagesCache, добавляются свойства name и email, поэтому response нужно дублировать в блоке else и в messagesResponseFunc
 	else {
 		for (var index = 0; index < messagesCache.info().size; index++) {
@@ -60,19 +75,31 @@ ListMessagesCtrl = function(httpGetService,
 	}
 
 	menuActiveClassService.addClass('active', '.main-menu', '.inbox');
+
+	scrollTopService();
 }
 
-// вывести список пользователей
-ListUsersCtrl = function(httpGetService,
-						 usersCacheFactory,
-						 menuActiveClassService
+function ListUsersCtrl(httpGetService,
+					   usersCacheFactory,
+					   liveSearchService,
+					   menuActiveClassService,
+					   scrollTopService
 ){
 	var usersCache = usersCacheFactory;
 	var vm = this;
-	
-	vm.users = [];
 
+	vm.users = [];
+	vm.liveSearchService = liveSearchService;
+
+	// обнулить поле живого поиска
+	vm.liveSearchService.searchText = '';
+	vm.liveSearchService.placeholder = 'поиск контактов';
+
+	// добавить пользователей из users.json в кеш-фабрику и в массив vm.users
+	// users.json
 	if(!usersCache.get(0)) {
+
+		// users.json
 		var usersResponseFunc = function(value, index) {
 			usersCache.put(index, value);
 		};
@@ -88,19 +115,30 @@ ListUsersCtrl = function(httpGetService,
 		vm.users.push(usersCache.get(index));
 	}
 
-	menuActiveClassService.addClass('active', '.main-menu', '.contacts');
+	menuActiveClassService.addClass('active', '.main-menu', '.users');
+	
+	scrollTopService();
 }
 
-// показать содержимое письма с конкретным id
-ViewMessageCtrl = function($routeParams,
-						   httpGetService,
-						   messagesCacheFactory,
-						   usersCacheFactory,
-						   menuActiveClassService
+function ViewMessageCtrl($routeParams,
+						 httpGetService,
+						 messagesCacheFactory,
+						 usersCacheFactory,
+						 liveSearchService,
+						 menuActiveClassService
 ){
 	var messagesCache = messagesCacheFactory;
 	var usersCache = usersCacheFactory;
+	var vm = this;
 
+	vm.liveSearchService = liveSearchService;
+
+	// обнулить поле живого поиска
+	vm.liveSearchService.searchText = '';
+	vm.liveSearchService.placeholder = '';
+
+	// добавить пользователей из users.json в кеш-фабрику,
+	// добавить письма из messages.json в кеш-фабрику и в массив vm.messages
 	if(!usersCache.get(0)) {
 
 		// users.json
@@ -130,6 +168,7 @@ ViewMessageCtrl = function($routeParams,
 							   httpGetService.messagesRejectObj
 		);
 	}
+
 	// переопределяется объект, возвращаемый кеш-фабрикой messagesCache, добавляются свойства name и email, поэтому response нужно дублировать в блоке else и в messagesResponseFunc
 	else {
 		for (var index = 0; index < messagesCache.info().size; index++) {
@@ -144,19 +183,94 @@ ViewMessageCtrl = function($routeParams,
 	var index = (+$routeParams.id - 1);
 
 	if(messagesCache.get(index)) {
-		this.message = messagesCache.get(index);
+		vm.message = messagesCache.get(index);
 	}
 	// если письмо с таким индексом не существует (когда в адресную строку вбить ссылку с несуществующим id письма)
 	else {
-		alert('ERROR! message #'+ (+$routeParams.id) + ' not found');
+		alert('ERROR! message #'+ $routeParams.id + ' not found');
 
-		this.message = {
+		vm.message = {
 			name: '',
 			email: 'error',
-			title: 'Ошибка !!! message #'+ (+$routeParams.id) + ' not found',
-			body: 'Ошибка !!! message #'+ (+$routeParams.id) + ' not found'
+			title: 'Ошибка !!! message #'+ $routeParams.id + ' not found',
+			body: 'Ошибка !!! message #'+ $routeParams.id + ' not found'
 		};
 	}
 
 	menuActiveClassService.removeClass('active', '.main-menu');
+}
+
+function ListUserMessagesCtrl($routeParams,
+					  httpGetService,
+					  messagesCacheFactory,
+					  usersCacheFactory,
+					  liveSearchService,
+					  $location,
+					  menuActiveClassService,
+					  scrollTopService
+){
+	var messagesCache = messagesCacheFactory;
+	var usersCache = usersCacheFactory;
+	var vm = this;
+
+	vm.userMessages = [];
+	vm.liveSearchService = liveSearchService;
+
+	// обнулить поле живого поиска
+	vm.liveSearchService.searchText = '';
+	vm.liveSearchService.placeholder = 'поиск писем';
+
+	// добавить пользователей из users.json в кеш-фабрику,
+	// добавить письма из messages.json в кеш-фабрику и в массив vm.messages
+	if(!usersCache.get(0)) {
+
+		// users.json
+		var usersResponseFunc = function(value, index) {
+			usersCache.put(index, value);
+		};
+
+		httpGetService.httpGet('users.json',
+							   usersCache,
+							   usersResponseFunc,
+							   httpGetService.usersRejectObj
+		);
+
+		// messages.json
+		var messagesResponseFunc = function(value, index) {
+			messagesCache.put(index, value);
+
+			var userId = messagesCache.get(index).userId;
+
+			messagesCache.get(index).name = usersCache.get(userId - 1).name;
+			messagesCache.get(index).email = usersCache.get(userId - 1).email;
+
+			if ($location.path() == '/list-user-messages/'+ userId) {
+				vm.userMessages.push(messagesCache.get(index));
+			}
+		};
+
+		httpGetService.httpGet('messages.json',
+							   messagesCache,
+							   messagesResponseFunc,
+							   httpGetService.messagesRejectObj
+		);
+	}
+
+	// переопределяется объект, возвращаемый кеш-фабрикой messagesCache, добавляются свойства name и email, поэтому response нужно дублировать в блоке else и в messagesResponseFunc
+	else {
+		for (var index = 0; index < messagesCache.info().size; index++) {
+			var userId = messagesCache.get(index).userId;
+
+			messagesCache.get(index).name = usersCache.get(userId - 1).name;
+			messagesCache.get(index).email = usersCache.get(userId - 1).email;
+
+			if ($location.path() == '/list-user-messages/'+ userId) {
+				vm.userMessages.push(messagesCache.get(index));
+			}
+		}
+	}
+
+	menuActiveClassService.removeClass('active', '.main-menu');
+
+	scrollTopService();
 }

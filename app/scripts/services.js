@@ -1,11 +1,31 @@
 angular.module('aMail.services', [])
   .service('httpGetService', httpGetService)
+  .service('liveSearchService', liveSearchService)
   .service('menuActiveClassService', menuActiveClassService)
   .factory('messagesCacheFactory', messagesCacheFactory)
+  .service('scrollTopService', scrollTopService)
+  .service('sidebarShowHideService', sidebarShowHideService)
   .factory('usersCacheFactory', usersCacheFactory)
 ;
 
-// $http.get запрос к json-файлу для кеширования в $cacheFactory. принимает: url, cache, responseFunc, rejectObj
+/**
+ * httpGetService($http) - $http.get запрос к json-файлу для кеширования в $cacheFactory
+ * 	принимает: url, cache, responseFunc, rejectObj
+ *
+ * liveSearchService - в searchText получает текст из строки поиска,
+ * содержимое placeholder меняется в зависимости от выбранного пункта меню
+ *
+ * menuActiveClassService - добавить-удалить класс 'add' элементам 'li' меню 'menu'
+ *
+ * messagesCacheFactory($cacheFactory) - кеш-фабрика списка писем
+ *
+ * scrollTopService - плавно прокручивает старницу вверх
+ *
+ * sidebarShowHideService - показывает/скрывает меню '.sidebar' на смартфонах
+ *
+ * usersCacheFactory($cacheFactory) - кеш-фабрика списка юзеров
+ */
+
 function httpGetService($http) {
 	return {
 		messagesRejectObj: {
@@ -36,11 +56,17 @@ function httpGetService($http) {
 					cache.put(0, rejectObj);
 				}
 			);
-		} // httpGet ends
+		}
 	}
 }
 
-// добавить-удалить класс 'add' элементам 'li' меню 'menu'
+function liveSearchService() {
+	return {
+		searchText: '',
+		placeholder: 'живой поиск'
+	}
+}
+
 function menuActiveClassService() {
 	var addClass, removeClass;
 
@@ -62,12 +88,53 @@ function menuActiveClassService() {
 	}
 }
 
-// кеш списка писем
 function messagesCacheFactory($cacheFactory) {
 	return $cacheFactory('messages-сache');
 }
 
-// кеш списка пользователей
+function scrollTopService() {
+	return function() {
+		$('#scrollTop').on('click', function() {
+			var scr = window.pageYOffset || document.documentElement.scrollTop;
+			if (scr > 0) {
+				$('html, #top-section').animate({scrollTop: 0}, 400);
+			}
+		});
+	};
+}
+
+function sidebarShowHideService() {
+	return function(){
+		// ToggleClass 'active' with .sidebar-nav
+		$('.navbar-toggle').on('click', function (event) {
+			event.preventDefault();
+			$('.sidebar-nav').toggleClass('active');
+			$(this).toggleClass('active');
+		});
+
+		// Hide responsive navbar on clicking outside
+		$(document).mouseup(function (event) {
+			var target = event.target;
+
+			 // if click target isn't the container and isn't the .navbar-toggle button ...
+			if ($('.sidebar-nav').hasClass('active')
+				&& (!$('.sidebar-nav').is(target)
+					&& $('.sidebar-nav').has(target).length === 0
+					&& !$('.navbar-toggle').is(target)
+					&& $('.navbar-toggle').has(target).length === 0
+
+					// ... or it's a tag (a, span or i) inside the container's li
+					|| $('.sidebar-nav .main-menu li').find('a, span, i').is(target)
+					)
+				)
+			{
+				event.stopPropagation();
+				$('.navbar-toggle').click();
+			}
+		});
+	};
+}
+
 function usersCacheFactory($cacheFactory) {
 	return $cacheFactory('users-сache');
 }

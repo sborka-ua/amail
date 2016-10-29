@@ -1,5 +1,5 @@
 <section class="list-group custom-messages-list">
-	<a ng-repeat="message in listMessagesCtrl.messages | filter:listMessagesCtrl.liveSearchService.searchText"
+	<a ng-repeat="message in listUserMessagesCtrl.userMessages | filter:listUserMessagesCtrl.liveSearchService.searchText"
    ng-href="#/view-message/{{message.id}}" data-toggle="tooltip"
    title="{{message.body}}" class="list-group-item">
 

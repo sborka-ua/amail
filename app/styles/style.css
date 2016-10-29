@@ -1,31 +1,33 @@
+.avatar {
+	margin: 0 auto;
+}
+
 .center-block {
     float: none !important;
     text-align: center;
 }
 
 #content {
-	margin-bottom: 20px !important;
+    padding-left: 10px !important;
+    padding-right: 0 !important;
 }
 
-.custom-contacts {
-	margin-top: -20px;
+.custom-users table {
+	margin-bottom: 0 !important;
 }
 
-.custom-contacts .list-group-item {
-	float: left;
-	width: 230px;
-	height: 100px;
-	margin: 0 5px 5px 0;
-	border-radius: 4px !important;
-}
-
-.custom-contacts tr td,
+.custom-users tr td,
 .custom-messages-list tr td,
 .custom-messages-detail tr td {
 	vertical-align: top !important;
 }
 
-.custom-contacts tr td .small,
+.custom-messages-list tr td.list-name,
+.custom-messages-detail tr td.list-name {
+	vertical-align: middle !important;
+}
+
+.custom-users tr td .small,
 .custom-messages-list tr td .small,
 .custom-messages-detail tr td .small {
 	margin-top: 2px !important;
@@ -38,6 +40,16 @@
 
 footer {
     clear: both;
+	padding-top: 20px !important;
+	border-top: 1px solid rgb(240, 240, 240) !important;
+}
+
+.github-avatar {
+    margin-right: 10px;
+}
+
+.github-avatar span {
+    vertical-align: super;
 }
 
 .main-menu {
@@ -49,7 +61,7 @@ footer {
 	cursor: default;
 }
 
-.main-menu .contacts {
+.main-menu .users {
 	border-top: 1px solid rgb(220, 220, 220);
 }
 
@@ -71,46 +83,61 @@ footer {
 	background-color: rgb(255, 255, 255) !important;
 }
 
-.message-detail {
-	margin-top: 15px !important;
-	padding-left: 15px;
-}
-
-.message-detail-left {
-	margin-top: 10px !important;
-}
-
-.message-detail-right {
-	margin-top: 8px !important;
-}
-
 .navbar {
 	border: none;
     margin-bottom: 0 !important;
 }
 
-.navbar-search {
-    margin-top: 7px;
-}
-
 .navbar-inner {
     padding-top: 5px;
-    padding-bottom: 5px;
-    line-height: 30px;
-    height: 60px;
+    line-height: 25px;
+    height: 50px;
 }
 
 .navbar-inner .btn-group {
-    margin: 7px 5px 0 10px;
+    margin: 8px 5px 0 0;
 }
 
-.navbar-inner .pull-left {
-    float: left !important;
+.navbar-inner .btn-group .btn {
+    background-color: #fff !important;
+	border: 1px solid rgb(220, 220, 220);
 }
 
-.navbar-inner .pull-right {
-    float: right !important;
-	padding-right: 0 !important;
+.navbar-inner .btn-group .btn:hover {
+    background-color: rgb(240, 240, 240) !important;
+}
+
+.navbar-inner .btn-group .btn:focus {
+	box-shadow: 0 0 3px #BDBDBD;
+	border: solid 1px white;
+    background-color: #eee !important;
+}
+
+.navbar-inner .btn-group .dropdown-menu {
+    margin-left: 15px !important;
+}
+
+.navbar-inner .btn-group span,
+.navbar-inner .btn-group i {
+	color: rgb(35, 82, 124);
+}
+
+.navbar-search {
+    margin-top: 8px;
+}
+
+.navbar-search .search-query:hover {
+	border-color: rgb(102, 175, 233);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.navbar-search .search-reset {
+    margin-top: -16px;
+    margin-bottom: 3px;
+}
+
+.navbar-search .search-reset:hover {
+	cursor: pointer;
 }
 
 .noscript-alert {
@@ -120,6 +147,29 @@ footer {
 
 .powered-by {
     text-align: right;
+}
+
+#scrollTop {
+	display: block;
+	cursor: pointer;
+	width: 100px;
+	background: none repeat scroll 0% 0% rgb(240, 240, 240);
+	border: 1px solid rgb(204, 204, 204);
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+	padding: 5px;
+	position: fixed;
+	bottom: 40px;
+	right: 5px;
+	cursor: pointer;
+	color: rgb(102, 102, 102);
+	text-decoration: none;
+	z-index: 100;
+	outline: medium none;
+}
+
+#scrollTop:hover {
+	background: none repeat scroll 0% 0% rgb(230, 230, 230);	
 }
 
 .sidebar-nav {
@@ -136,7 +186,8 @@ footer {
 }
 
 #top-section {
-    margin-bottom: 5px !important;
+    margin-bottom: 10px !important;
+	border-bottom: 1px solid rgb(240, 240, 240) !important;
 }
 
 .whitespace:before {
@@ -148,35 +199,39 @@ footer {
 @media only screen and (max-width: 767px) {
 
 	.avatar {
-		margin-bottom: 5px;
+		margin: 0 0 5px 0;
 	}
 
+
+	#content {
+		padding-left: 10px !important;
+		padding-right: 10px !important;
+	}
     .copyright {
         text-align: center;
     }
-
-	.custom-contacts,
-	.custom-messages-list,
-	.custom-messages-detail {
-		margin-top: 15px !important;
-	}
 
 	.custom-messages-detail .list-group-item {
 		padding-left: 0 !important;
 	}
 
     .navbar-toggle {
-        margin-left: 5px;
+		margin-left: 10px !important;
         margin-right: 0;
     }
 
-     .navbar-default .navbar-toggle:focus {
-        background-color: inherit;
+	.navbar-toggle .btn:hover {
+		background-color: rgb(240, 240, 240) !important;
+	}
+
+     .navbar-toggle:focus {
+        background-color: #eee !important;
     }
 
-    .navbar-default .navbar-toggle.active {
-        box-shadow: 0 0 4px rgb(160, 160, 160);
+    .navbar-toggle.active {
+        box-shadow: 0 0 3px #BDBDBD;
         border: solid 1px white;
+        background-color: #eee !important;
     }
 
    .powered-by {
@@ -196,7 +251,7 @@ footer {
         z-index: 2;
 		border: 1px solid rgb(200, 200, 200);
         border-radius: 6px;
-        box-shadow: 0 0 1px rgb(190, 190, 190);
+        box-shadow: 0 0 1px #BDBDBD;
         background: #fff;
         margin: 0 !important;
         padding-bottom: 10px;
@@ -208,35 +263,24 @@ footer {
         transition: .3s;
     }
 
-    .sidebar-nav.active .navbar-canvas {
-        top: -7px;
-        left: 6px;
-    }
-
-	.sidebar-nav.active .navbar-canvas:hover {
-		border: 1px solid rgb(180, 180, 180);
-        box-shadow: 0 0 1px rgb(190, 190, 190);
-	}
-
     .sidebar-nav.active .main-menu {
         border-top: none;
     }
 
-	#top-section {
-		margin: 0 15px !important;
+    .sidebar-nav.active .navbar-canvas {
+        top: -13px;
+        left: 5px;
+    }
+
+	.sidebar-nav.active .navbar-canvas:hover {
+		border: 1px solid rgb(180, 180, 180);
+        box-shadow: 0 0 1px #BDBDBD;
 	}
 }
 
 /* Tablet */
 @media only screen and (min-width: 768px) and (max-width: 979px) {
 
-	.avatar {
-		margin: 0 auto;
-	}
-
-	#content {
-		padding-right: 1px !important;
-	}
 }
 
 /* Computer */
@@ -248,13 +292,4 @@ footer {
         -o-transition: .5s;
         transition: .5s;
     }
-
-	.avatar {
-		margin: 0 auto;
-	}
-
-	#content {
-		padding-right: 1px !important;
-	}
-
 }

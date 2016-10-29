@@ -1,19 +1,49 @@
 angular.module('aMail.directives', [])
-  .directive('ngbkFocus', ngbkFocus)
+  .directive('liveSearch', liveSearch)
   .directive('messagesCount', messagesCount)
+  .directive('navbarToggle', navbarToggle)
   .directive('usersCount', usersCount)
 ;
 
-// установить фокус на input-элементе
-function ngbkFocus() {
-	return {
-		link: function(scope, element, attrs, controller) {
-			element[0].focus();
+/**
+ * liveSearch - запускает фильтр сообщений / юзеров при вводе текста в поле поиска
+ *
+ * messagesCount - получает список писем из файла messages.json и кеширует
+ *
+ * navbarToggle - кнопка, при клике показывает/скрывает меню '.sidebar' на смартфонах
+ *
+ * usersCount - получает список юзеров из файла users.json и кеширует
+ */
+
+function liveSearch() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		scope: {},
+		templateUrl: 'templates/live-search.html',
+		controllerAs: 'liveSearchCtrl',
+		controller: function (liveSearchService,
+							  $location,
+							  $routeParams
+		){
+			var vm = this;
+			vm.liveSearchService = liveSearchService;
+
+			vm.ifViewingMessage = function() {
+				if ($location.path() == '/view-message/'+ $routeParams.id) {
+					vm.liveSearchService.placeholder = 'поиск отключен';
+					return true;
+				}
+			}
+
+			vm.reset = function() {
+				vm.liveSearchService.searchText = '';
+			}
 		}
 	};
+	return directive;
 }
 
-// Получает список писем из файла messages и кеширует
 function messagesCount() {
 	var directive = {
 		restrict: 'A',
@@ -37,12 +67,25 @@ function messagesCount() {
 									   httpGetService.messagesRejectObj
 				);
 			}
-		} // controller ends
+		}
 	};
 	return directive;
 }
 
-// Получает список юзеров из файла users и кеширует
+function navbarToggle() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		scope: {},
+		templateUrl: 'templates/navbar-toggle.html',
+		controllerAs: 'navbarToggleCtrl',
+		controller: function (sidebarShowHideService) {
+			sidebarShowHideService();
+		}
+	};
+	return directive;
+}
+
 function usersCount() {
 	var directive = {
 		restrict: 'A',
@@ -66,7 +109,7 @@ function usersCount() {
 									   httpGetService.usersRejectObj
 				);
 			}
-		} // controller ends
+		}
 	};
 	return directive;
 }

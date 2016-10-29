@@ -1,5 +1,8 @@
 <section class="list-group custom-users">
-	<a ng-repeat="user in listUsersCtrl.users" class="list-group-item">
+	<a ng-repeat="user in listUsersCtrl.users | filter:listUsersCtrl.liveSearchService.searchText"
+	ng-href="#/list-user-messages/{{user.id}}" data-toggle="tooltip"
+   title="показать письма пользователя {{user.name}}" class="list-group-item">
+
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 ng-bind="user.name" class="panel-title"></h3>
@@ -21,14 +24,14 @@
 									<td ng-bind="user.username" class="col-xs-10"></td>
 								</tr>
 								<tr>
+									<td>Email</td>
+
+									<td class="text-primary" ng-bind="user.email"></td>
+								</tr>
+								<tr>
 									<td>Город</td>
 
 									<td ng-bind="user.address.city"></td>
-								</tr>
-								<tr>
-									<td>Email</td>
-
-									<td><a ng-href="mailto:{{user.email}}" ng-bind="user.email" data-toggle="tooltip" title="написать письмо"></a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -37,8 +40,10 @@
 				</div> <!-- /row ends -->
 			</div> <!-- /panel-body ends -->
 
-			<div class="panel-footer"></div>
+<!-- <div class="panel-footer"></div> -->
 
 		</div> <!-- /panel panel-default -->
 	</a>
+
+	<a id="scrollTop" title="Наверх">^ Наверх ^</a>
 </section>

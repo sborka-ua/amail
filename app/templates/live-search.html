@@ -1,0 +1,16 @@
+<div class="navbar-search">
+	<form class="col-xs-6 col-xs-offset-1 col-sm-5 col-sm-offset-3">
+		<div class="form-group">
+			<input ng-disabled="liveSearchCtrl.ifViewingMessage()"
+				   ng-model="liveSearchCtrl.liveSearchService.searchText"
+				   placeholder="{{liveSearchCtrl.liveSearchService.placeholder}}"
+				   type="text" id="searchTextBox" name="searchTextBox"
+				   class="search-query form-control">
+		</div>
+		<div ng-show="liveSearchCtrl.liveSearchService.searchText.length"
+			 ng-click="liveSearchCtrl.reset()" class="search-reset form-group">
+
+			<span type="reset" class="label label-primary">очистить поиск</span>	
+		</div>
+	</form>
+</div>
