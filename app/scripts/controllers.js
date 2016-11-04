@@ -272,5 +272,10 @@ function ListUserMessagesCtrl($routeParams,
 
 	menuActiveClassService.removeClass('active', '.main-menu');
 
+	// если страница с юзерами была прокручена, то кликнув по юзеру откроются все его письма.
+	// роутер обновляет только часть страницы и прокрутка останется на том же месте.
+	// поэтому принудительно поднимаем страницу вверх
+	window.scrollTo(0,0);
+
 	scrollTopService();
 }

@@ -150,26 +150,23 @@ footer {
 }
 
 #scrollTop {
-	display: block;
-	cursor: pointer;
-	width: 100px;
-	background: none repeat scroll 0% 0% rgb(240, 240, 240);
-	border: 1px solid rgb(204, 204, 204);
-	border-radius: 5px 5px 5px 5px;
-	text-align: center;
-	padding: 5px;
+	display: none;
 	position: fixed;
-	bottom: 40px;
-	right: 5px;
+	bottom: 1px;
+	right: -2px;
+	padding: 25px 10px;
 	cursor: pointer;
-	color: rgb(102, 102, 102);
-	text-decoration: none;
-	z-index: 100;
-	outline: medium none;
+	z-index: 99;
 }
 
-#scrollTop:hover {
-	background: none repeat scroll 0% 0% rgb(230, 230, 230);	
+#scrollTop a {
+	padding: 5px;
+	background: none repeat scroll 0% 0% rgb(240, 240, 240);
+	border: 1px solid rgb(200, 200, 200);
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+	text-decoration: none;
+	color: rgb(100, 100, 100);
 }
 
 .sidebar-nav {

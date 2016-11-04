@@ -94,11 +94,22 @@ function messagesCacheFactory($cacheFactory) {
 
 function scrollTopService() {
 	return function() {
-		$('#scrollTop').on('click', function() {
-			var scr = window.pageYOffset || document.documentElement.scrollTop;
-			if (scr > 0) {
-				$('html, #top-section').animate({scrollTop: 0}, 400);
-			}
+		$(document).on('scroll', function() {
+			($(document).scrollTop() > 200)
+				? $('#scrollTop').fadeIn('slow') : $('#scrollTop').fadeOut('slow');
+		});
+
+		$('#scrollTop').on('mouseover', function() {
+			$('#scrollTop a').css({'background': 'none repeat scroll 0% 0% rgb(230, 230, 230)', 'border': '1px solid rgb(190, 190, 190)'});
+		});
+
+		$('#scrollTop').on('mouseout', function() {
+			$('#scrollTop a').css({'background': 'none repeat scroll 0% 0% rgb(240, 240, 240)', 'border': '1px solid rgb(200, 200, 200)'});
+		});
+
+		$('#scrollTop').on('click', function(event) {
+			event.preventDefault();
+			$('html, body').animate({scrollTop: 0}, 400);
 		});
 	};
 }
