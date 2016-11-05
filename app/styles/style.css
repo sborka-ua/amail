@@ -1,5 +1,6 @@
 .avatar {
-	margin: 0 auto;
+	margin: 0 auto 10px auto;
+	display: block;
 }
 
 .center-block {
@@ -22,15 +23,15 @@
 	vertical-align: top !important;
 }
 
-.custom-messages-list tr td.list-name,
-.custom-messages-detail tr td.list-name {
-	vertical-align: middle !important;
-}
-
 .custom-users tr td .small,
 .custom-messages-list tr td .small,
 .custom-messages-detail tr td .small {
 	margin-top: 2px !important;
+}
+
+.custom-messages-list tr td.list-name,
+.custom-messages-detail tr td.list-name {
+	vertical-align: middle !important;
 }
 
 .custom-messages-list .list-value,
@@ -169,6 +170,14 @@ footer {
 	color: rgb(100, 100, 100);
 }
 
+.show-mes {
+	display: inline-block;
+	font-size: 75%;
+	font-weight: 700;
+	text-align: center;
+	padding: 1px 5px;
+}
+
 .sidebar-nav {
     min-height: 0;
 	max-height: none;
@@ -196,9 +205,9 @@ footer {
 @media only screen and (max-width: 767px) {
 
 	.avatar {
-		margin: 0 0 5px 0;
+		margin-right: 10px;
+		float: left;
 	}
-
 
 	#content {
 		padding-left: 10px !important;
@@ -210,6 +219,16 @@ footer {
 
 	.custom-messages-detail .list-group-item {
 		padding-left: 0 !important;
+	}
+
+	.edit-user .show-mes {
+		float: left;
+		margin: 0 5px 5px 0 !important;
+		padding: 1px 5px !important;
+	}
+
+	.list-group-item .show-mes {
+		padding-left: 5px !important;
 	}
 
     .navbar-toggle {

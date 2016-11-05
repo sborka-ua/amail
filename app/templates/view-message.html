@@ -1,6 +1,5 @@
 <section class="list-group custom-messages-detail">
-	<a data-toggle="tooltip" title="ответить" class="list-group-item">
-
+	<li class="list-group-item">
 		<table>
 			<tbody>
 				<tr>
@@ -12,7 +11,13 @@
 
 					<td class="list-name">
 						<div class="list-value text-default">
-							<span ng-bind="viewMessageCtrl.message.name"></span>
+							<p>
+								<a ng-href="#/list-user-messages/{{viewMessageCtrl.message.userId}}" class="show-mes list-group-item">
+								показать все письма пользователя</a>
+							</p>
+							<p>
+								<span ng-bind="viewMessageCtrl.message.name"></span>
+							</p>
 						</div>
 					</td>
 				</tr>
@@ -38,8 +43,7 @@
 				</tr>
 			</tbody>
 		</table>
-
-	</a>
+	</li>
 </section>
 
 <section ng-bind="viewMessageCtrl.message.body" class="message-detail well well-sm"></section>

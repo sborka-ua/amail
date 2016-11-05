@@ -1,8 +1,6 @@
 <section class="list-group custom-messages-list">
-	<a ng-repeat="message in listUserMessagesCtrl.userMessages | filter:listUserMessagesCtrl.liveSearchService.searchText"
-   ng-href="#/view-message/{{message.id}}" data-toggle="tooltip"
-   title="{{message.body}}" class="list-group-item">
-
+	<li ng-repeat="message in listUserMessagesCtrl.userMessages | filter:listUserMessagesCtrl.liveSearchService.searchText"
+	data-toggle="tooltip" title="{{message.body}}" class="list-group-item">
 		<table>
 			<tbody>
 				<tr>
@@ -14,7 +12,13 @@
 
 					<td class="list-name">
 						<div class="list-value text-default">
-							<span ng-bind="message.name"></span>
+							<p>
+								<a ng-href="#/view-message/{{message.id}}" class="show-mes list-group-item">
+									открыть письмо</a>
+							</p>
+							<p>
+								<span ng-bind="message.name"></span>
+							</p>
 						</div>
 					</td>
 				</tr>
@@ -40,7 +44,6 @@
 				</tr>
 			</tbody>
 		</table>
-	</a>
-
+	</li>
 	<div id="scrollTop"><a title="Наверх">^ Наверх ^</a></div>
 </section>
