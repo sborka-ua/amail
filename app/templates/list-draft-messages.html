@@ -1,0 +1,49 @@
+<section class="list-group custom-messages-list">
+	<li ng-repeat="message in listDraftMessagesCtrl.messages | filter:listDraftMessagesCtrl.liveSearchService.searchText"
+	data-toggle="tooltip" title="{{message.body}}" class="list-group-item">
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<div class="list-value text-default">
+							<img ng-src="images/{{message.userId}}.jpg" class="avatar img-responsive img-circle">
+						</div>
+					</td>
+
+					<td class="list-name">
+						<div class="list-value text-default">
+							<p>
+								<a ng-href="#/view-draft-message/{{message.id}}" class="show-mes list-group-item">
+									открыть удаленное письмо</a>
+							</p>
+							<p>
+								<span ng-bind="message.name"></span>
+							</p>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-right">
+						<div class="small"><b>email:</b></div>
+					</td>
+
+					<td>
+						<div class="list-value text-primary">
+							<span ng-bind="message.email"></span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-right">
+						<div class="small"><b>Тема:</b></div>
+					</td>
+
+					<td>
+						<div ng-bind="message.title" class="list-value"></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</li>
+	<div id="scrollTop"><a title="Наверх">^ Наверх ^</a></div>
+</section>

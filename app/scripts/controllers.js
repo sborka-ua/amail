@@ -1,16 +1,50 @@
 angular.module('aMail.controllers', []);
 
 /**
- * ListMessagesCtrl - вывести список писем, добавить к каждому письму email и имя пользователя
+ * ListDraftMessagesCtrl - вывести список писем, удаленных в корзину
+ *
+ * ListMessagesCtrl - вывести список писем, добавить к каждому письму
+ * 	email и имя пользователя
  *
  * ListUsersCtrl - вывести список пользователей
+ *
+ * ViewDraftMessageCtrl - показать содержимое удаленного в корзину письма с конкретным id
  *
  * ViewMessageCtrl - показать содержимое письма с конкретным id
  *
  * ListUserMessagesCtrl - вывести список писем пользователя с конкретным id
  */
 
+function ListDraftMessagesCtrl(initMessagesCountFactory,
+							   draftCountFactory,
+							   liveSearchService,
+							   menuActiveClassService,
+							   scrollTopService
+){
+	var vm = this;
+	vm.messages = [];
+
+	vm.draftCache = draftCountFactory;
+	vm.liveSearchService = liveSearchService;
+
+	// обнулить поле живого поиска
+	vm.liveSearchService.searchText = '';
+	vm.liveSearchService.placeholder = 'поиск писем';
+
+	for (var index = 0; index < initMessagesCountFactory.messagesCount; index++) {
+
+		if (!vm.draftCache.get(index)) continue;
+
+		vm.messages.push(vm.draftCache.get(index));
+	}
+
+	menuActiveClassService.addClass('active', '.main-menu', '.draft');
+
+	scrollTopService();
+}
+
 function ListMessagesCtrl(httpGetService,
+						  initMessagesCountFactory,
 						  messagesCacheFactory,
 						  usersCacheFactory,
 						  liveSearchService,
@@ -64,7 +98,10 @@ function ListMessagesCtrl(httpGetService,
 
 	// переопределяется объект, возвращаемый кеш-фабрикой messagesCache, добавляются свойства name и email, поэтому response нужно дублировать в блоке else и в messagesResponseFunc
 	else {
-		for (var index = 0; index < messagesCache.info().size; index++) {
+		for (var index = 0; index < initMessagesCountFactory.messagesCount; index++) {
+
+			if (!messagesCache.get(index)) continue;
+
 			var userId = messagesCache.get(index).userId;
 
 			messagesCache.get(index).name = usersCache.get(userId - 1).name;
@@ -112,6 +149,9 @@ function ListUsersCtrl(httpGetService,
 	}
 
 	for (var index = 0; index < usersCache.info().size; index++) {
+
+		if (!usersCache.get(index)) continue;
+
 		vm.users.push(usersCache.get(index));
 	}
 
@@ -120,7 +160,38 @@ function ListUsersCtrl(httpGetService,
 	scrollTopService();
 }
 
+function ViewDraftMessageCtrl($routeParams,
+							  $location,
+							  draftCountFactory,
+							  liveSearchService,
+							  menuActiveClassService
+){
+	var vm = this;
+
+	vm.liveSearchService = liveSearchService;
+
+	// обнулить поле живого поиска
+	vm.liveSearchService.searchText = '';
+	vm.liveSearchService.placeholder = '';
+
+	var index = (+$routeParams.id - 1);
+
+	if(draftCountFactory.get(index)) {
+		vm.message = draftCountFactory.get(index);
+	}
+	// если письмо с таким индексом не существует (когда в адресную строку вбить ссылку с несуществующим id письма)
+	else {
+		alert('Ошибка! письмо #'+ $routeParams.id + ' не найдено. переходим на главную страницу');
+
+		$location.path('/');
+	}
+
+	menuActiveClassService.removeClass('active', '.main-menu');
+}
+
 function ViewMessageCtrl($routeParams,
+						 $location,
+						 initMessagesCountFactory,
 						 httpGetService,
 						 messagesCacheFactory,
 						 usersCacheFactory,
@@ -171,7 +242,10 @@ function ViewMessageCtrl($routeParams,
 
 	// переопределяется объект, возвращаемый кеш-фабрикой messagesCache, добавляются свойства name и email, поэтому response нужно дублировать в блоке else и в messagesResponseFunc
 	else {
-		for (var index = 0; index < messagesCache.info().size; index++) {
+		for (var index = 0; index < initMessagesCountFactory.messagesCount; index++) {
+
+			if (!messagesCache.get(index)) continue;
+
 			var userId = messagesCache.get(index).userId;
 
 			messagesCache.get(index).name = usersCache.get(userId - 1).name;
@@ -187,27 +261,23 @@ function ViewMessageCtrl($routeParams,
 	}
 	// если письмо с таким индексом не существует (когда в адресную строку вбить ссылку с несуществующим id письма)
 	else {
-		alert('ERROR! message #'+ $routeParams.id + ' not found');
+		alert('Ошибка! письмо #'+ $routeParams.id + ' не найдено. переходим на главную страницу');
 
-		vm.message = {
-			name: '',
-			email: 'error',
-			title: 'Ошибка !!! message #'+ $routeParams.id + ' not found',
-			body: 'Ошибка !!! message #'+ $routeParams.id + ' not found'
-		};
+		$location.path('/');
 	}
 
 	menuActiveClassService.removeClass('active', '.main-menu');
 }
 
 function ListUserMessagesCtrl($routeParams,
-					  httpGetService,
-					  messagesCacheFactory,
-					  usersCacheFactory,
-					  liveSearchService,
-					  $location,
-					  menuActiveClassService,
-					  scrollTopService
+							  $location,
+							  initMessagesCountFactory,
+							  httpGetService,
+							  messagesCacheFactory,
+							  usersCacheFactory,
+							  liveSearchService,
+							  menuActiveClassService,
+							  scrollTopService
 ){
 	var messagesCache = messagesCacheFactory;
 	var usersCache = usersCacheFactory;
@@ -258,7 +328,10 @@ function ListUserMessagesCtrl($routeParams,
 
 	// переопределяется объект, возвращаемый кеш-фабрикой messagesCache, добавляются свойства name и email, поэтому response нужно дублировать в блоке else и в messagesResponseFunc
 	else {
-		for (var index = 0; index < messagesCache.info().size; index++) {
+		for (var index = 0; index < initMessagesCountFactory.messagesCount; index++) {
+
+			if (!messagesCache.get(index)) continue;
+
 			var userId = messagesCache.get(index).userId;
 
 			messagesCache.get(index).name = usersCache.get(userId - 1).name;
@@ -268,6 +341,13 @@ function ListUserMessagesCtrl($routeParams,
 				vm.userMessages.push(messagesCache.get(index));
 			}
 		}
+	}
+
+	// если во входящих нет писем этого пользователя (например, все были удалены в корзину) тогда переходим на главную страницу
+	if (!vm.userMessages.length) {
+		alert('Во входящих нет писем этого пользователя. Переходим на главную страницу');
+
+		$location.path('/');
 	}
 
 	menuActiveClassService.removeClass('active', '.main-menu');

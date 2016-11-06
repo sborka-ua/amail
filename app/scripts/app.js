@@ -14,20 +14,30 @@ function emailRouteConfig($routeProvider) {
 		controllerAs: 'listMessagesCtrl',
 		controller: ListMessagesCtrl
 	})
-	.when('/users', {
-		templateUrl: 'templates/list-users.html',
-		controllerAs: 'listUsersCtrl',
-		controller: ListUsersCtrl
-	})
-	.when('/view-message/:id', {
-		templateUrl: 'templates/view-message.html',
-		controllerAs: 'viewMessageCtrl',
-		controller: ViewMessageCtrl
+	.when('/draft', {
+		templateUrl: 'templates/list-draft-messages.html',
+		controllerAs: 'listDraftMessagesCtrl',
+		controller: ListDraftMessagesCtrl
 	})
 	.when('/list-user-messages/:id', {
 		templateUrl: 'templates/list-user-messages.html',
 		controllerAs: 'listUserMessagesCtrl',
 		controller: ListUserMessagesCtrl
+	})
+	.when('/users', {
+		templateUrl: 'templates/list-users.html',
+		controllerAs: 'listUsersCtrl',
+		controller: ListUsersCtrl
+	})
+	.when('/view-draft-message/:id', {
+		templateUrl: 'templates/view-draft-message.html',
+		controllerAs: 'viewDraftMessageCtrl',
+		controller: ViewDraftMessageCtrl
+	})
+	.when('/view-message/:id', {
+		templateUrl: 'templates/view-message.html',
+		controllerAs: 'viewMessageCtrl',
+		controller: ViewMessageCtrl
 	})
 	.otherwise({
 		redirectTo: '/'

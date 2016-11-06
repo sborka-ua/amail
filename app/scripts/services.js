@@ -1,5 +1,7 @@
 angular.module('aMail.services', [])
+  .factory('draftCountFactory', draftCountFactory)
   .service('httpGetService', httpGetService)
+  .factory('initMessagesCountFactory', initMessagesCountFactory)
   .service('liveSearchService', liveSearchService)
   .service('menuActiveClassService', menuActiveClassService)
   .factory('messagesCacheFactory', messagesCacheFactory)
@@ -9,8 +11,13 @@ angular.module('aMail.services', [])
 ;
 
 /**
+ * draftCountFactory - кеш-фабрика для вывода в Sidebar количества писем в корзине
+ *
  * httpGetService($http) - $http.get запрос к json-файлу для кеширования в $cacheFactory
  * 	принимает: url, cache, responseFunc, rejectObj
+ *
+ * initMessagesCountFactory - начальное количество писем в messages.json,
+ *	для правильного вывода списка входящих писем после удалений в корзину
  *
  * liveSearchService - в searchText получает текст из строки поиска,
  * содержимое placeholder меняется в зависимости от выбранного пункта меню
@@ -25,6 +32,10 @@ angular.module('aMail.services', [])
  *
  * usersCacheFactory($cacheFactory) - кеш-фабрика списка юзеров
  */
+
+function draftCountFactory($cacheFactory) {
+	return $cacheFactory('draft-count-сache');
+}
 
 function httpGetService($http) {
 	return {
@@ -57,6 +68,12 @@ function httpGetService($http) {
 				}
 			);
 		}
+	}
+}
+
+function initMessagesCountFactory() {
+	return {
+		messagesCount: 100
 	}
 }
 

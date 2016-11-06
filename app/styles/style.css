@@ -170,12 +170,25 @@ footer {
 	color: rgb(100, 100, 100);
 }
 
+#show-del-mes-button {
+	cursor: pointer;
+}
+
+.show-del-mes-button {
+	display: inline-block;
+}
+
 .show-mes {
 	display: inline-block;
 	font-size: 75%;
 	font-weight: 700;
 	text-align: center;
 	padding: 1px 5px;
+}
+
+.show-user-mes {
+	float: left;
+	margin-right: 10px;
 }
 
 .sidebar-nav {
@@ -223,7 +236,7 @@ footer {
 
 	.edit-user .show-mes {
 		float: left;
-		margin: 0 5px 5px 0 !important;
+		margin: 10px 5px 5px 0 !important;
 		padding: 1px 5px !important;
 	}
 

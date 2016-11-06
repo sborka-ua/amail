@@ -1,4 +1,6 @@
 angular.module('aMail.directives', [])
+  .directive('draftCount', draftCount)
+  .directive('deleteMessage', deleteMessage)
   .directive('liveSearch', liveSearch)
   .directive('messagesCount', messagesCount)
   .directive('navbarToggle', navbarToggle)
@@ -6,7 +8,11 @@ angular.module('aMail.directives', [])
 ;
 
 /**
- * liveSearch - запускает фильтр сообщений / юзеров при вводе текста в поле поиска
+ * draftCount - получает список писем, удаленных в корзину
+ *
+ * deleteMessage - удаляет письмо в корзину
+ *
+ * liveSearch - запускает фильтр писем / юзеров при вводе текста в поле поиска
  *
  * messagesCount - получает список писем из файла messages.json и кеширует
  *
@@ -14,6 +20,61 @@ angular.module('aMail.directives', [])
  *
  * usersCount - получает список юзеров из файла users.json и кеширует
  */
+
+function draftCount() {
+	var directive = {
+		restrict: 'A',
+		scope: {},
+		template: '{{draftCountCtrl.draftCache.info().size}}',
+		controllerAs: 'draftCountCtrl',
+		controller: function(draftCountFactory) {
+
+			this.draftCache = draftCountFactory;
+
+// alert('1) this.draftCache.size = '+ this.draftCache.info().size);
+
+		}
+	};
+	return directive;
+}
+
+function deleteMessage() {
+	var directive = {
+		restrict: 'A',
+		scope: {},
+		template: '<a ng-click="deleteMessageCtrl.del()" class="show-mes list-group-item"><span class="text-danger">удалить письмо</span></a>',
+		controllerAs: 'deleteMessageCtrl',
+		controller: function($location,
+							 messagesCacheFactory,
+							 draftCountFactory
+		){
+
+			this.del = function() {
+				var index = $location.path().replace('/view-message/', '') - 1;
+
+// alert('5) index = '+ index);
+
+				var temp = messagesCacheFactory.get(index);
+
+// alert('6) temp.id = '+ temp.id);
+// alert('7) temp.title = '+ temp.title);
+
+				draftCountFactory.put(index, temp);
+
+				messagesCacheFactory.remove(index);
+
+// alert('9) draftCountFactory.'+ index +'.id = '+ draftCountFactory[index].id);
+
+				var deleted = angular.element(document.querySelector("#show-del-mes-button"));
+				
+				deleted.html('<span class="label label-default">письмо удалено в корзину</span>');
+				
+				deleted.css('cursor', 'default');
+			};
+		} // controller ends
+	};
+	return directive;
+}
 
 function liveSearch() {
 	var directive = {
@@ -30,7 +91,9 @@ function liveSearch() {
 			vm.liveSearchService = liveSearchService;
 
 			vm.ifViewingMessage = function() {
-				if ($location.path() == '/view-message/'+ $routeParams.id) {
+				if ($location.path() == '/view-message/'+ $routeParams.id
+					|| $location.path() == '/view-draft-message/'+ $routeParams.id
+				){
 					vm.liveSearchService.placeholder = 'поиск отключен';
 					return true;
 				}
@@ -57,6 +120,7 @@ function messagesCount() {
 			vm.messagesCache = messagesCacheFactory;
 
 			if(!vm.messagesCache.get(0)) {
+
 				var messagesResponseFunc = function(value, index) {
 					vm.messagesCache.put(index, value);
 				};

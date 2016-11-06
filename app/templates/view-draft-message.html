@@ -5,21 +5,24 @@
 				<tr>
 					<td>
 						<div class="list-value text-default">
-							<img ng-src="images/{{viewMessageCtrl.message.userId}}.jpg" class="avatar img-responsive img-circle">
+							<img ng-src="images/{{viewDraftMessageCtrl.message.userId}}.jpg" class="avatar img-responsive img-circle">
 						</div>
 					</td>
 
 					<td class="list-name">
 						<div class="list-value text-default">
-							<p ng-show="viewMessageCtrl.message.userId" class="show-user-mes">
-								<a ng-href="#/list-user-messages/{{viewMessageCtrl.message.userId}}" class="show-mes list-group-item">
+							<p ng-show="viewDraftMessageCtrl.message.userId" class="show-user-mes">
+								<a ng-href="#/list-user-messages/{{viewDraftMessageCtrl.message.userId}}" class="show-mes list-group-item">
 								показать все письма пользователя</a>
 							</p>
 
-							<p delete-message id="show-del-mes-button" class="show-del-mes-button"></p>
+							<p class="show-del-mes-button">
+								<span class="label label-default">
+								это письмо в корзине</span>
+							</p>
 
 							<p>
-								<span ng-bind="viewMessageCtrl.message.name"></span>
+								<span ng-bind="viewDraftMessageCtrl.message.name"></span>
 							</p>
 						</div>
 					</td>
@@ -31,7 +34,7 @@
 
 					<td>
 						<div class="list-value text-primary">
-							<span ng-bind="viewMessageCtrl.message.email"></span>
+							<span ng-bind="viewDraftMessageCtrl.message.email"></span>
 						</div>
 					</td>
 				</tr>
@@ -41,7 +44,7 @@
 					</td>
 
 					<td>
-						<div ng-bind="viewMessageCtrl.message.title" class="list-value"></div>
+						<div ng-bind="viewDraftMessageCtrl.message.title" class="list-value"></div>
 					</td>
 				</tr>
 			</tbody>
@@ -49,4 +52,4 @@
 	</li>
 </section>
 
-<section ng-bind="viewMessageCtrl.message.body" class="message-detail well well-sm"></section>
+<section ng-bind="viewDraftMessageCtrl.message.body" class="message-detail well well-sm"></section>
