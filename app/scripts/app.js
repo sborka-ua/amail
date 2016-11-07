@@ -5,7 +5,14 @@ angular.module('aMail', [
 //  'aMail.filters',
   'aMail.services'
 ])
-.config(emailRouteConfig);
+
+.config(emailRouteConfig)
+.run(httpGetRun)
+;
+
+/**
+ * httpGetService - $http.get запросы к json-файлам для кеширования в $cacheFactory
+ */
 
 function emailRouteConfig($routeProvider) {
 	$routeProvider.
@@ -43,3 +50,59 @@ function emailRouteConfig($routeProvider) {
 		redirectTo: '/'
 	});
 };
+
+function httpGetRun($http,
+					initCountFactory,
+					messagesCacheFactory,
+					usersCacheFactory
+			  
+){
+	var vm = this;
+	vm.initCount = initCountFactory;
+	vm.messagesCache = messagesCacheFactory;
+	vm.usersCache = usersCacheFactory;
+
+	$http.get('messages.json').then(
+		function(response) {
+			angular.forEach(response.data, function(value, index) {
+				vm.initCount.messages[index] = value;
+				vm.messagesCache.put(index, index);
+			});
+
+			vm.initCount.messagesCount = vm.messagesCache.info().size;
+		},
+
+		function(reject) {
+			alert('Ошибка загрузки данных из messages.json, status: '+ reject.status +', data: '+ reject.data);
+
+			vm.initCount.messages[0] = {
+				userId: 'error',
+				id: '',
+				title: 'Ошибка! Письма не найдены.',
+				body: ''
+			};
+		}
+	);
+
+	$http.get('users.json').then(
+		function(response) {
+			angular.forEach(response.data, function(value, index) {
+				vm.initCount.users[index] = value;
+				vm.usersCache.put(index, index);
+			});
+
+			vm.initCount.usersCount = vm.usersCache.info().size;
+		},
+
+		function(reject) {
+			alert('Ошибка загрузки данных из users.json, status: '+ reject.status +', data: '+ reject.data);
+
+			vm.initCount.users[0] = {
+				username: 'error',
+				address: '',
+				email: '',
+				name: 'Ошибка! Пользователь не найден.'
+			};
+		}
+	);
+}

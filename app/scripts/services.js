@@ -1,6 +1,5 @@
 angular.module('aMail.services', [])
   .factory('draftCountFactory', draftCountFactory)
-  .service('httpGetService', httpGetService)
   .factory('initCountFactory', initCountFactory)
   .service('liveSearchService', liveSearchService)
   .service('menuActiveClassService', menuActiveClassService)
@@ -13,9 +12,6 @@ angular.module('aMail.services', [])
 /**
  * draftCountFactory - кеш-фабрика хранит письма, удаленные в корзину и
  *	показывает в sidebar счетчик удаленных писем
- *
- * httpGetService($http) - $http.get запросы к json-файлам для кеширования в $cacheFactory
- * 	принимает: url, cache, responseFunc, rejectObj
  *
  * initCountFactory - хранит письма и юзеров из json-файлов для правильного показа
  *	списка писем в html-шаблонах после удалений писем в корзину,
@@ -39,46 +35,12 @@ function draftCountFactory($cacheFactory) {
 	return $cacheFactory('draft-count-сache');
 }
 
-function httpGetService($http) {
-	return {
-		messagesRejectObj: {
-			userId: 'error',
-			id: '',
-			title: 'Ошибка !!! messages not found',
-			body: ''
-		},
-
-		usersRejectObj: {
-			username: 'error',
-			address: '',
-			email: '',
-			name: 'Ошибка !!! users not found'
-		},
-
-		httpGet: function(url, cache, responseFunc, rejectObj) {
-			return $http.get(url).then(
-				function(response) {
-					angular.forEach(response.data, function(value, index) {
-						responseFunc(value, index);
-					});
-				},
-
-				function(reject) {
-					alert('Пользователь не найден. status: '+ reject.status +', data: '+ reject.data);
-
-					cache[0] = rejectObj;
-				}
-			);
-		}
-	}
-}
-
 function initCountFactory() {
 	return {
-		usersCount: 10,
-		messagesCount: 100,
-		users: {},
-		messages: {}
+		messagesCount: 0,
+		usersCount: 0,
+		messages: {},
+		users: {}
 	}
 }
 

@@ -108,26 +108,8 @@ function messagesCount() {
 		scope: {},
 		template: '{{messagesCountCtrl.messagesCache.info().size}}',
 		controllerAs: 'messagesCountCtrl',
-		controller: function(initCountFactory,
-							 messagesCacheFactory,
-							 httpGetService
-		){
-			var vm = this;
-			vm.initCount = initCountFactory;
-			vm.messagesCache = messagesCacheFactory;
-
-			if(!vm.initCount.messages[0]) {
-				var messagesResponseFunc = function(value, index) {
-					vm.initCount.messages[index] = value;
-					vm.messagesCache.put(index, index);
-				};
-
-				httpGetService.httpGet('messages.json',
-									   vm.initCount.messages,
-									   messagesResponseFunc,
-									   httpGetService.messagesRejectObj
-				);
-			}
+		controller: function(messagesCacheFactory) {
+			this.messagesCache = messagesCacheFactory;
 		}
 	};
 	return directive;
@@ -153,26 +135,8 @@ function usersCount() {
 		scope: {},
 		template: '{{usersCountCtrl.usersCache.info().size}}',
 		controllerAs: 'usersCountCtrl',
-		controller: function(initCountFactory,
-							 usersCacheFactory,
-							 httpGetService
-		){
-			var vm = this;
-			vm.initCount = initCountFactory;
-			vm.usersCache = usersCacheFactory;
-
-			if(!vm.initCount.users[0]) {
-				var usersResponseFunc = function(value, index) {
-					vm.initCount.users[index] = value;
-					vm.usersCache.put(index, index);
-				};
-
-				httpGetService.httpGet('users.json',
-									   vm.initCount.users,
-									   usersResponseFunc,
-									   httpGetService.usersRejectObj
-				);
-			}
+		controller: function(usersCacheFactory) {
+			this.usersCache = usersCacheFactory;
 		}
 	};
 	return directive;
