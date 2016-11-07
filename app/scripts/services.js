@@ -1,7 +1,7 @@
 angular.module('aMail.services', [])
   .factory('draftCountFactory', draftCountFactory)
   .service('httpGetService', httpGetService)
-  .factory('initMessagesCountFactory', initMessagesCountFactory)
+  .factory('initCountFactory', initCountFactory)
   .service('liveSearchService', liveSearchService)
   .service('menuActiveClassService', menuActiveClassService)
   .factory('messagesCacheFactory', messagesCacheFactory)
@@ -11,26 +11,28 @@ angular.module('aMail.services', [])
 ;
 
 /**
- * draftCountFactory - кеш-фабрика для вывода в Sidebar количества писем в корзине
+ * draftCountFactory - кеш-фабрика хранит письма, удаленные в корзину и
+ *	показывает в sidebar счетчик удаленных писем
  *
- * httpGetService($http) - $http.get запрос к json-файлу для кеширования в $cacheFactory
+ * httpGetService($http) - $http.get запросы к json-файлам для кеширования в $cacheFactory
  * 	принимает: url, cache, responseFunc, rejectObj
  *
- * initMessagesCountFactory - начальное количество писем в messages.json,
- *	для правильного вывода списка входящих писем после удалений в корзину
+ * initCountFactory - хранит письма и юзеров из json-файлов для правильного показа
+ *	списка писем в html-шаблонах после удалений писем в корзину,
+ *	также отдельно хранит начальное количество писем и юзеров
  *
  * liveSearchService - в searchText получает текст из строки поиска,
- * содержимое placeholder меняется в зависимости от выбранного пункта меню
+ *	содержимое placeholder меняется в зависимости от выбранного пункта меню
  *
- * menuActiveClassService - добавить-удалить класс 'add' элементам 'li' меню 'menu'
+ * menuActiveClassService - добавляет-удаляет класс 'add' элементам 'li' меню 'menu'
  *
- * messagesCacheFactory($cacheFactory) - кеш-фабрика списка писем
+ * messagesCacheFactory($cacheFactory) - кеш-фабрика хранит список писем для счетчика
  *
  * scrollTopService - плавно прокручивает старницу вверх
  *
  * sidebarShowHideService - показывает/скрывает меню '.sidebar' на смартфонах
  *
- * usersCacheFactory($cacheFactory) - кеш-фабрика списка юзеров
+ * usersCacheFactory($cacheFactory) - кеш-фабрика хранит список юзеров для счетчика
  */
 
 function draftCountFactory($cacheFactory) {
@@ -62,18 +64,21 @@ function httpGetService($http) {
 				},
 
 				function(reject) {
-					alert('ERROR! users not found. status: '+ reject.status +', data: '+ reject.data);
+					alert('Пользователь не найден. status: '+ reject.status +', data: '+ reject.data);
 
-					cache.put(0, rejectObj);
+					cache[0] = rejectObj;
 				}
 			);
 		}
 	}
 }
 
-function initMessagesCountFactory() {
+function initCountFactory() {
 	return {
-		messagesCount: 100
+		usersCount: 10,
+		messagesCount: 100,
+		users: {},
+		messages: {}
 	}
 }
 

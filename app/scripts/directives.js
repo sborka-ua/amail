@@ -8,17 +8,21 @@ angular.module('aMail.directives', [])
 ;
 
 /**
- * draftCount - получает список писем, удаленных в корзину
+ * draftCount - получает от draftCountFactory список писем, удаленных в корзину
  *
  * deleteMessage - удаляет письмо в корзину
  *
- * liveSearch - запускает фильтр писем / юзеров при вводе текста в поле поиска
+ * liveSearch - запускает фильтр писем/юзеров при вводе текста в поле поиска
  *
- * messagesCount - получает список писем из файла messages.json и кеширует
+ * messagesCount - получает список писем из messages.json,
+ *	передает этот список в initCountFactory.messages,
+ *	кеширует количество писем в messagesCacheFactory
  *
- * navbarToggle - кнопка, при клике показывает/скрывает меню '.sidebar' на смартфонах
+ * navbarToggle - кнопка, при клике показывает/скрывает меню sidebar на смартфонах
  *
- * usersCount - получает список юзеров из файла users.json и кеширует
+ * usersCount - получает список писем из users.json,
+ *	передает этот список в initCountFactory.users,
+ *	кеширует количество писем в usersCacheFactory
  */
 
 function draftCount() {
@@ -30,9 +34,6 @@ function draftCount() {
 		controller: function(draftCountFactory) {
 
 			this.draftCache = draftCountFactory;
-
-// alert('1) this.draftCache.size = '+ this.draftCache.info().size);
-
 		}
 	};
 	return directive;
@@ -45,33 +46,27 @@ function deleteMessage() {
 		template: '<a ng-click="deleteMessageCtrl.del()" class="show-mes list-group-item"><span class="text-danger">удалить письмо</span></a>',
 		controllerAs: 'deleteMessageCtrl',
 		controller: function($location,
-							 messagesCacheFactory,
-							 draftCountFactory
+							 initCountFactory,
+							 draftCountFactory,
+							 messagesCacheFactory
 		){
-
 			this.del = function() {
 				var index = $location.path().replace('/view-message/', '') - 1;
 
-// alert('5) index = '+ index);
+				draftCountFactory.put(index, initCountFactory.messages[index]);
 
-				var temp = messagesCacheFactory.get(index);
+				initCountFactory.messages[index] = null;
 
-// alert('6) temp.id = '+ temp.id);
-// alert('7) temp.title = '+ temp.title);
-
-				draftCountFactory.put(index, temp);
-
+				// для обновления количества в кеш-фабрике
 				messagesCacheFactory.remove(index);
 
-// alert('9) draftCountFactory.'+ index +'.id = '+ draftCountFactory[index].id);
-
 				var deleted = angular.element(document.querySelector("#show-del-mes-button"));
-				
+
 				deleted.html('<span class="label label-default">письмо удалено в корзину</span>');
-				
+
 				deleted.css('cursor', 'default');
 			};
-		} // controller ends
+		}
 	};
 	return directive;
 }
@@ -113,20 +108,22 @@ function messagesCount() {
 		scope: {},
 		template: '{{messagesCountCtrl.messagesCache.info().size}}',
 		controllerAs: 'messagesCountCtrl',
-		controller: function(messagesCacheFactory,
+		controller: function(initCountFactory,
+							 messagesCacheFactory,
 							 httpGetService
 		){
 			var vm = this;
+			vm.initCount = initCountFactory;
 			vm.messagesCache = messagesCacheFactory;
 
-			if(!vm.messagesCache.get(0)) {
-
+			if(!vm.initCount.messages[0]) {
 				var messagesResponseFunc = function(value, index) {
-					vm.messagesCache.put(index, value);
+					vm.initCount.messages[index] = value;
+					vm.messagesCache.put(index, index);
 				};
 
 				httpGetService.httpGet('messages.json',
-									   vm.messagesCache,
+									   vm.initCount.messages,
 									   messagesResponseFunc,
 									   httpGetService.messagesRejectObj
 				);
@@ -156,19 +153,22 @@ function usersCount() {
 		scope: {},
 		template: '{{usersCountCtrl.usersCache.info().size}}',
 		controllerAs: 'usersCountCtrl',
-		controller: function(usersCacheFactory,
+		controller: function(initCountFactory,
+							 usersCacheFactory,
 							 httpGetService
 		){
 			var vm = this;
+			vm.initCount = initCountFactory;
 			vm.usersCache = usersCacheFactory;
 
-			if(!vm.usersCache.get(0)) {
+			if(!vm.initCount.users[0]) {
 				var usersResponseFunc = function(value, index) {
-					vm.usersCache.put(index, value);
+					vm.initCount.users[index] = value;
+					vm.usersCache.put(index, index);
 				};
 
 				httpGetService.httpGet('users.json',
-									   vm.usersCache,
+									   vm.initCount.users,
 									   usersResponseFunc,
 									   httpGetService.usersRejectObj
 				);

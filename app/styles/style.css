@@ -146,6 +146,10 @@ footer {
 	border-radius: 5px;
 }
 
+.outbox a:hover {
+    background-color: transparent !important;
+}
+
 .powered-by {
     text-align: right;
 }
