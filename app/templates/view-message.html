@@ -1,4 +1,9 @@
-<section class="list-group custom-messages-detail">
+<div ng-show="viewMessageCtrl.notFound"
+	 class="noscript-alert alert alert-block center-block text-danger col-xs-10 col-xs-offset-1 col-sm-5">
+	<p><span ng-bind="viewMessageCtrl.notFoundText"></span></p>
+</div>
+
+<section ng-hide="viewMessageCtrl.notFound" class="list-group custom-messages-detail">
 	<li class="list-group-item">
 		<table>
 			<tbody>
@@ -51,4 +56,6 @@
 	</li>
 </section>
 
-<section ng-bind="viewMessageCtrl.message.body" class="message-detail well well-sm"></section>
+<section ng-hide="viewMessageCtrl.notFound"
+		 ng-bind="viewMessageCtrl.message.body" class="message-detail well well-sm"
+></section>

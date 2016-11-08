@@ -1,36 +1,36 @@
 angular.module('aMail.controllers', []);
 
 /**
- * ListDraftMessagesCtrl - вывести список писем, удаленных в корзину
+ * ListDraftMessagesCtrl - выводит список писем, удаленных в корзину
  *
- * ListMessagesCtrl - вывести список писем, добавить к каждому письму email и user.name
+ * ListMessagesCtrl - выводит список входящих писем, добавить к каждому письму email и user.name
  *
- * ListUsersCtrl - вывести список юзеров
+ * ListUsersCtrl - выводит список юзеров
  *
- * ViewDraftMessageCtrl - показать содержимое удаленного в корзину письма с конкретным id
+ * ViewDraftMessageCtrl - показывает содержимое удаленного в корзину письма с конкретным id
  *
- * ViewMessageCtrl - показать содержимое входящего письма с конкретным id
+ * ViewMessageCtrl - показывает содержимое входящего письма с конкретным id
  *
- * ListUserMessagesCtrl - вывести список писем от пользователя с конкретным id
+ * ListUserMessagesCtrl - выводит список писем от пользователя с конкретным id
  */
 
 function ListDraftMessagesCtrl(initCountFactory,
-							   draftCountFactory,
+							   draftCacheFactory,
 							   liveSearchService,
 							   menuActiveClassService,
 							   scrollTopService
 ){
 	var vm = this;
-	vm.messages = [];
-
-	vm.draftCache = draftCountFactory;
+	vm.initCount = initCountFactory;
+	vm.draftCache = draftCacheFactory;
 	vm.liveSearchService = liveSearchService;
+	vm.messages = [];
 
 	// обнулить поле живого поиска
 	vm.liveSearchService.searchText = '';
 	vm.liveSearchService.placeholder = 'поиск писем';
 
-	for (var index = 0; index < initCountFactory.messagesCount; index++) {
+	for (var index = 0; index < vm.initCount.messagesCount; index++) {
 
 		if (!vm.draftCache.get(index)) continue;
 
@@ -43,30 +43,33 @@ function ListDraftMessagesCtrl(initCountFactory,
 }
 
 function ListMessagesCtrl(initCountFactory,
+						  messagesCacheFactory,
+						  usersCacheFactory,
 						  liveSearchService,
 						  menuActiveClassService,
 						  scrollTopService
 ){
 	var vm = this;
 	vm.initCount = initCountFactory;
-
-	vm.messages = [];
+	vm.messagesCache = messagesCacheFactory;
+	vm.usersCache = usersCacheFactory;
 	vm.liveSearchService = liveSearchService;
+	vm.messages = [];
 
 	// обнулить поле живого поиска
 	vm.liveSearchService.searchText = '';
 	vm.liveSearchService.placeholder = 'поиск писем';
 
-	for (var index = 0; index < initCountFactory.messagesCount; index++) {
+	for (var index = 0; index < vm.initCount.messagesCount; index++) {
 
-		if (!vm.initCount.messages[index]) continue;
+		if (!vm.messagesCache.get(index)) continue;
 
-		var userId = vm.initCount.messages[index].userId;
+		var userId = vm.messagesCache.get(index).userId;
 
-		vm.initCount.messages[index].name = vm.initCount.users[userId - 1].name;
-		vm.initCount.messages[index].email = vm.initCount.users[userId - 1].email;
+		vm.messagesCache.get(index).name = vm.usersCache.get(userId - 1).name;
+		vm.messagesCache.get(index).email = vm.usersCache.get(userId - 1).email;
 
-		vm.messages.push(vm.initCount.messages[index]);
+		vm.messages.push(vm.messagesCache.get(index));
 	}
 
 	menuActiveClassService.addClass('active', '.main-menu', '.inbox');
@@ -75,25 +78,26 @@ function ListMessagesCtrl(initCountFactory,
 }
 
 function ListUsersCtrl(initCountFactory,
+					   usersCacheFactory,
 					   liveSearchService,
 					   menuActiveClassService,
 					   scrollTopService
 ){
 	var vm = this;
 	vm.initCount = initCountFactory;
-
-	vm.users = [];
+	vm.usersCache = usersCacheFactory;
 	vm.liveSearchService = liveSearchService;
+	vm.users = [];
 
 	// обнулить поле живого поиска
 	vm.liveSearchService.searchText = '';
 	vm.liveSearchService.placeholder = 'поиск контактов';
 
-	for (var index = 0; index < initCountFactory.usersCount; index++) {
+	for (var index = 0; index < vm.initCount.usersCount; index++) {
 
-		if (!vm.initCount.users[index]) continue;
+		if (!vm.usersCache.get(index)) continue;
 
-		vm.users.push(vm.initCount.users[index]);
+		vm.users.push(vm.usersCache.get(index));
 	}
 
 	menuActiveClassService.addClass('active', '.main-menu', '.users');
@@ -103,28 +107,35 @@ function ListUsersCtrl(initCountFactory,
 
 function ViewDraftMessageCtrl($routeParams,
 							  $location,
-							  draftCountFactory,
+							  draftCacheFactory,
 							  liveSearchService,
 							  menuActiveClassService
 ){
 	var vm = this;
-
+	vm.draftCache = draftCacheFactory;
 	vm.liveSearchService = liveSearchService;
 
 	// обнулить поле живого поиска
 	vm.liveSearchService.searchText = '';
 	vm.liveSearchService.placeholder = '';
 
+	// индекс $routeParams.id - 1, чтобы id писем совпадали с /view-message/:id
 	var index = (+$routeParams.id - 1);
 
-	if(draftCountFactory.get(index)) {
-		vm.message = draftCountFactory.get(index);
+	if(vm.draftCache.get(index)) {
+		vm.message = vm.draftCache.get(index);
+		vm.notFound = false;
 	}
 	// если письмо с таким индексом не существует (когда в адресную строку вбить ссылку с несуществующим id письма)
 	else {
-		alert('письмо #'+ $routeParams.id + ' не найдено. Переходим на главную страницу');
+		vm.notFound = true;
 
-		$location.path('/');
+		if(!isNaN(index)) {
+			vm.notFoundText = 'В корзине нет письма № '+ (index + 1) +'!';
+		}
+		else {
+			vm.notFoundText = 'В корзине нет такого письма!';
+		}
 	}
 
 	menuActiveClassService.removeClass('active', '.main-menu');
@@ -133,39 +144,48 @@ function ViewDraftMessageCtrl($routeParams,
 function ViewMessageCtrl($routeParams,
 						 $location,
 						 initCountFactory,
+						 messagesCacheFactory,
+						 usersCacheFactory,
 						 liveSearchService,
 						 menuActiveClassService
 ){
 	var vm = this;
 	vm.initCount = initCountFactory;
-
+	vm.messagesCache = messagesCacheFactory;
+	vm.usersCache = usersCacheFactory;
 	vm.liveSearchService = liveSearchService;
 
 	// обнулить поле живого поиска
 	vm.liveSearchService.searchText = '';
 	vm.liveSearchService.placeholder = '';
 
-	for (var index = 0; index < initCountFactory.messagesCount; index++) {
+	for (var index = 0; index < vm.initCount.messagesCount; index++) {
 
-		if (!vm.initCount.messages[index]) continue;
+		if (!vm.messagesCache.get(index)) continue;
 
-		var userId = vm.initCount.messages[index].userId;
+		var userId = vm.messagesCache.get(index).userId;
 
-		vm.initCount.messages[index].name = vm.initCount.users[userId - 1].name;
-		vm.initCount.messages[index].email = vm.initCount.users[userId - 1].email;
+		vm.messagesCache.get(index).name = vm.usersCache.get(userId - 1).name;
+		vm.messagesCache.get(index).email = vm.usersCache.get(userId - 1).email;
 	}
 
 	// индекс $routeParams.id - 1, чтобы id писем совпадали с /view-message/:id
 	var index = (+$routeParams.id - 1);
 
-	if(vm.initCount.messages[index]) {
-		vm.message = vm.initCount.messages[index];
+	if(vm.messagesCache.get(index)) {
+		vm.message = vm.messagesCache.get(index);
+		vm.notFound = false;
 	}
 	// если письмо с таким индексом не существует (когда в адресную строку вбить ссылку с несуществующим id письма)
 	else {
-		alert('письмо #'+ $routeParams.id + ' не найдено. Переходим на главную страницу');
+		vm.notFound = true;
 
-		$location.path('/');
+		if(!isNaN(index)) {
+			vm.notFoundText = 'Во входящих нет письма № '+ (index + 1) +'!';
+		}
+		else {
+			vm.notFoundText = 'Во входящих нет такого письма!';
+		}
 	}
 
 	menuActiveClassService.removeClass('active', '.main-menu');
@@ -174,39 +194,35 @@ function ViewMessageCtrl($routeParams,
 function ListUserMessagesCtrl($routeParams,
 							  $location,
 							  initCountFactory,
+							  messagesCacheFactory,
+							  usersCacheFactory,
 							  liveSearchService,
 							  menuActiveClassService,
 							  scrollTopService
 ){
 	var vm = this;
 	vm.initCount = initCountFactory;
-
-	vm.userMessages = [];
+	vm.messagesCache = messagesCacheFactory;
+	vm.usersCache = usersCacheFactory;
 	vm.liveSearchService = liveSearchService;
+	vm.userMessages = [];
 
 	// обнулить поле живого поиска
 	vm.liveSearchService.searchText = '';
 	vm.liveSearchService.placeholder = 'поиск писем';
 
-	for (var index = 0; index < initCountFactory.messagesCount; index++) {
+	for (var index = 0; index < vm.initCount.messagesCount; index++) {
 
-		if (!vm.initCount.messages[index]) continue;
+		if (!vm.messagesCache.get(index)) continue;
 
-		var userId = vm.initCount.messages[index].userId;
+		var userId = vm.messagesCache.get(index).userId;
 
-		vm.initCount.messages[index].name = vm.initCount.users[userId - 1].name;
-		vm.initCount.messages[index].email = vm.initCount.users[userId - 1].email;
+		vm.messagesCache.get(index).name = vm.usersCache.get(userId - 1).name;
+		vm.messagesCache.get(index).email = vm.usersCache.get(userId - 1).email;
 
 		if ($location.path() == '/list-user-messages/'+ userId) {
-			vm.userMessages.push(vm.initCount.messages[index]);
+			vm.userMessages.push(vm.messagesCache.get(index));
 		}
-	}
-
-	// если во входящих нет писем этого пользователя (например, все были удалены в корзину) тогда переходим на главную страницу
-	if (!vm.userMessages.length) {
-		alert('Во входящих нет писем этого пользователя. Переходим на главную страницу');
-
-		$location.path('/');
 	}
 
 	menuActiveClassService.removeClass('active', '.main-menu');

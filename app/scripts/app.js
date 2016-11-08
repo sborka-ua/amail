@@ -55,7 +55,6 @@ function httpGetRun($http,
 					initCountFactory,
 					messagesCacheFactory,
 					usersCacheFactory
-			  
 ){
 	var vm = this;
 	vm.initCount = initCountFactory;
@@ -65,8 +64,7 @@ function httpGetRun($http,
 	$http.get('messages.json').then(
 		function(response) {
 			angular.forEach(response.data, function(value, index) {
-				vm.initCount.messages[index] = value;
-				vm.messagesCache.put(index, index);
+				vm.messagesCache.put(index, value);
 			});
 
 			vm.initCount.messagesCount = vm.messagesCache.info().size;
@@ -75,20 +73,19 @@ function httpGetRun($http,
 		function(reject) {
 			alert('Ошибка загрузки данных из messages.json, status: '+ reject.status +', data: '+ reject.data);
 
-			vm.initCount.messages[0] = {
+			vm.messagesCache.put(0, {
 				userId: 'error',
 				id: '',
 				title: 'Ошибка! Письма не найдены.',
 				body: ''
-			};
+			});
 		}
 	);
 
 	$http.get('users.json').then(
 		function(response) {
 			angular.forEach(response.data, function(value, index) {
-				vm.initCount.users[index] = value;
-				vm.usersCache.put(index, index);
+				vm.usersCache.put(index, value);
 			});
 
 			vm.initCount.usersCount = vm.usersCache.info().size;
@@ -97,12 +94,12 @@ function httpGetRun($http,
 		function(reject) {
 			alert('Ошибка загрузки данных из users.json, status: '+ reject.status +', data: '+ reject.data);
 
-			vm.initCount.users[0] = {
+			vm.usersCache.put(0, {
 				username: 'error',
 				address: '',
 				email: '',
 				name: 'Ошибка! Пользователь не найден.'
-			};
+			});
 		}
 	);
 }

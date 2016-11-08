@@ -1,4 +1,9 @@
-<section class="list-group custom-messages-detail">
+<div ng-show="viewDraftMessageCtrl.notFound"
+	 class="noscript-alert alert alert-block center-block text-danger col-xs-10 col-xs-offset-1 col-sm-5">
+	<p><span ng-bind="viewDraftMessageCtrl.notFoundText"></span></p>
+</div>
+
+<section ng-hide="viewDraftMessageCtrl.notFound" class="list-group custom-messages-detail">
 	<li class="list-group-item">
 		<table>
 			<tbody>
@@ -54,4 +59,6 @@
 	</li>
 </section>
 
-<section ng-bind="viewDraftMessageCtrl.message.body" class="message-detail well well-sm"></section>
+<section ng-hide="viewDraftMessageCtrl.notFound"
+		 ng-bind="viewDraftMessageCtrl.message.body" class="message-detail well well-sm"
+></section>

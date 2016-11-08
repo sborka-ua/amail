@@ -1,4 +1,9 @@
-<section class="list-group custom-users">
+<div ng-hide="listUsersCtrl.users.length"
+	 class="noscript-alert alert alert-block center-block text-danger col-xs-10 col-xs-offset-1 col-sm-5">
+	<p>Пользователей нет!</p>
+</div>
+
+<section ng-show="listUsersCtrl.users.length" class="list-group custom-users">
 	<li ng-repeat="user in listUsersCtrl.users | filter:listUsersCtrl.liveSearchService.searchText"
 	data-toggle="tooltip" title="показать письма пользователя {{user.name}}"
 	class="list-group-item">

@@ -8,21 +8,18 @@ angular.module('aMail.directives', [])
 ;
 
 /**
- * draftCount - получает от draftCountFactory список писем, удаленных в корзину
+ * draftCount - получает от draftCacheFactory список писем, удаленных в корзину и
+ *	выводит в sidebar
  *
  * deleteMessage - удаляет письмо в корзину
  *
  * liveSearch - запускает фильтр писем/юзеров при вводе текста в поле поиска
  *
- * messagesCount - получает список писем из messages.json,
- *	передает этот список в initCountFactory.messages,
- *	кеширует количество писем в messagesCacheFactory
+ * messagesCount - получает от messagesCacheFactory количество писем и выводит в sidebar
  *
- * navbarToggle - кнопка, при клике показывает/скрывает меню sidebar на смартфонах
+ * navbarToggle - кнопка, при клике показывает/скрывает sidebar на смартфонах
  *
- * usersCount - получает список писем из users.json,
- *	передает этот список в initCountFactory.users,
- *	кеширует количество писем в usersCacheFactory
+ * usersCount - получает от usersCacheFactory количество юзеров и выводит в sidebar
  */
 
 function draftCount() {
@@ -31,9 +28,8 @@ function draftCount() {
 		scope: {},
 		template: '{{draftCountCtrl.draftCache.info().size}}',
 		controllerAs: 'draftCountCtrl',
-		controller: function(draftCountFactory) {
-
-			this.draftCache = draftCountFactory;
+		controller: function(draftCacheFactory) {
+			this.draftCache = draftCacheFactory;
 		}
 	};
 	return directive;
@@ -47,18 +43,19 @@ function deleteMessage() {
 		controllerAs: 'deleteMessageCtrl',
 		controller: function($location,
 							 initCountFactory,
-							 draftCountFactory,
+							 draftCacheFactory,
 							 messagesCacheFactory
 		){
-			this.del = function() {
+			var vm = this;
+			vm.messagesCache = messagesCacheFactory;
+			vm.draftCache = draftCacheFactory;
+
+			vm.del = function() {
 				var index = $location.path().replace('/view-message/', '') - 1;
 
-				draftCountFactory.put(index, initCountFactory.messages[index]);
+				vm.draftCache.put(index, vm.messagesCache.get(index));
 
-				initCountFactory.messages[index] = null;
-
-				// для обновления количества в кеш-фабрике
-				messagesCacheFactory.remove(index);
+				vm.messagesCache.remove(index);
 
 				var deleted = angular.element(document.querySelector("#show-del-mes-button"));
 

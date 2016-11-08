@@ -1,5 +1,5 @@
 angular.module('aMail.services', [])
-  .factory('draftCountFactory', draftCountFactory)
+  .factory('draftCacheFactory', draftCacheFactory)
   .factory('initCountFactory', initCountFactory)
   .service('liveSearchService', liveSearchService)
   .service('menuActiveClassService', menuActiveClassService)
@@ -10,37 +10,32 @@ angular.module('aMail.services', [])
 ;
 
 /**
- * draftCountFactory - кеш-фабрика хранит письма, удаленные в корзину и
- *	показывает в sidebar счетчик удаленных писем
+ * draftCacheFactory - кеш-фабрика хранит список писем, удаленных в корзину
  *
- * initCountFactory - хранит письма и юзеров из json-файлов для правильного показа
- *	списка писем в html-шаблонах после удалений писем в корзину,
- *	также отдельно хранит начальное количество писем и юзеров
+ * initCountFactory - хранит полученное от app.run(httpGetRun) начальное количество писем *	и юзеров и не меняет эти значения
  *
- * liveSearchService - в searchText получает текст из строки поиска,
+ * liveSearchService - хранит в searchText текст из строки поиска,
  *	содержимое placeholder меняется в зависимости от выбранного пункта меню
  *
- * menuActiveClassService - добавляет-удаляет класс 'add' элементам 'li' меню 'menu'
+ * menuActiveClassService - добавляет/удаляет класс 'add' у элементов 'li' меню 'menu'
  *
- * messagesCacheFactory($cacheFactory) - кеш-фабрика хранит список писем для счетчика
+ * messagesCacheFactory($cacheFactory) - кеш-фабрика хранит список входящих писем
  *
  * scrollTopService - плавно прокручивает старницу вверх
  *
  * sidebarShowHideService - показывает/скрывает меню '.sidebar' на смартфонах
  *
- * usersCacheFactory($cacheFactory) - кеш-фабрика хранит список юзеров для счетчика
+ * usersCacheFactory($cacheFactory) - кеш-фабрика хранит список юзеров
  */
 
-function draftCountFactory($cacheFactory) {
+function draftCacheFactory($cacheFactory) {
 	return $cacheFactory('draft-count-сache');
 }
 
 function initCountFactory() {
 	return {
 		messagesCount: 0,
-		usersCount: 0,
-		messages: {},
-		users: {}
+		usersCount: 0
 	}
 }
 

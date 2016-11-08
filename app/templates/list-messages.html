@@ -1,4 +1,9 @@
-<section class="list-group custom-messages-list">
+<div ng-hide="listMessagesCtrl.messages.length"
+	 class="noscript-alert alert alert-block center-block text-danger col-xs-10 col-xs-offset-1 col-sm-5">
+	<p>Входящих писем нет!</p>
+</div>
+
+<section ng-show="listMessagesCtrl.messages.length" class="list-group custom-messages-list">
 	<li ng-repeat="message in listMessagesCtrl.messages | filter:listMessagesCtrl.liveSearchService.searchText"
 	data-toggle="tooltip" title="{{message.body}}" class="list-group-item">
 		<table>
