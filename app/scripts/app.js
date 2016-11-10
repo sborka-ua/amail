@@ -52,16 +52,18 @@ function emailRouteConfig($routeProvider) {
 };
 
 function httpGetRun($http,
-					initCountFactory,
+					initCountService,
 					messagesCacheFactory,
 					usersCacheFactory
 ){
 	var vm = this;
-	vm.initCount = initCountFactory;
+	vm.initCount = initCountService;
 	vm.messagesCache = messagesCacheFactory;
 	vm.usersCache = usersCacheFactory;
 
-	$http.get('messages.json').then(
+	// http://jsonplaceholder.typicode.com/posts
+	$http.get('messages.json')
+  .then(
 		function(response) {
 			angular.forEach(response.data, function(value, index) {
 				vm.messagesCache.put(index, value);
@@ -82,7 +84,9 @@ function httpGetRun($http,
 		}
 	);
 
-	$http.get('users.json').then(
+	// http://jsonplaceholder.typicode.com/users
+	$http.get('users.json')
+  .then(
 		function(response) {
 			angular.forEach(response.data, function(value, index) {
 				vm.usersCache.put(index, value);

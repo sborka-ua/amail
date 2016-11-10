@@ -3,25 +3,26 @@ angular.module('aMail.controllers', []);
 /**
  * ListDraftMessagesCtrl - выводит список писем, удаленных в корзину
  *
- * ListMessagesCtrl - выводит список входящих писем, добавить к каждому письму email и user.name
+ * ListMessagesCtrl - выводит список входящих писем
+ *	добавляет к каждому письму email и user.name
+ *
+ * ListUserMessagesCtrl - выводит список писем от пользователя с конкретным id
  *
  * ListUsersCtrl - выводит список юзеров
  *
- * ViewDraftMessageCtrl - показывает содержимое удаленного в корзину письма с конкретным id
+ * ViewDraftMessageCtrl - показывает содержимое удаленного в корзину
+ *	письма с конкретным id
  *
  * ViewMessageCtrl - показывает содержимое входящего письма с конкретным id
- *
- * ListUserMessagesCtrl - выводит список писем от пользователя с конкретным id
  */
 
-function ListDraftMessagesCtrl(initCountFactory,
+function ListDraftMessagesCtrl(initCountService,
 							   draftCacheFactory,
 							   liveSearchService,
-							   menuActiveClassService,
-							   scrollTopService
+							   menuActiveClassService
 ){
 	var vm = this;
-	vm.initCount = initCountFactory;
+	vm.initCount = initCountService;
 	vm.draftCache = draftCacheFactory;
 	vm.liveSearchService = liveSearchService;
 	vm.messages = [];
@@ -39,18 +40,18 @@ function ListDraftMessagesCtrl(initCountFactory,
 
 	menuActiveClassService.addClass('active', '.main-menu', '.draft');
 
-	scrollTopService();
+	// если страница с юзерами была прокручена, то кликнув по юзеру прокрутка останется на том же месте. прокручиваем страницу вверх
+	window.scrollTo(0,0);
 }
 
-function ListMessagesCtrl(initCountFactory,
+function ListMessagesCtrl(initCountService,
 						  messagesCacheFactory,
 						  usersCacheFactory,
 						  liveSearchService,
-						  menuActiveClassService,
-						  scrollTopService
+						  menuActiveClassService
 ){
 	var vm = this;
-	vm.initCount = initCountFactory;
+	vm.initCount = initCountService;
 	vm.messagesCache = messagesCacheFactory;
 	vm.usersCache = usersCacheFactory;
 	vm.liveSearchService = liveSearchService;
@@ -74,17 +75,56 @@ function ListMessagesCtrl(initCountFactory,
 
 	menuActiveClassService.addClass('active', '.main-menu', '.inbox');
 
-	scrollTopService();
+	// если страница с юзерами была прокручена, то кликнув по юзеру прокрутка останется на том же месте. прокручиваем страницу вверх
+	window.scrollTo(0,0);
 }
 
-function ListUsersCtrl(initCountFactory,
-					   usersCacheFactory,
-					   liveSearchService,
-					   menuActiveClassService,
-					   scrollTopService
+function ListUserMessagesCtrl($routeParams,
+							  $location,
+							  initCountService,
+							  messagesCacheFactory,
+							  usersCacheFactory,
+							  liveSearchService,
+							  menuActiveClassService
 ){
 	var vm = this;
-	vm.initCount = initCountFactory;
+	vm.initCount = initCountService;
+	vm.messagesCache = messagesCacheFactory;
+	vm.usersCache = usersCacheFactory;
+	vm.liveSearchService = liveSearchService;
+	vm.userMessages = [];
+
+	// обнулить поле живого поиска
+	vm.liveSearchService.searchText = '';
+	vm.liveSearchService.placeholder = 'поиск писем';
+
+	for (var index = 0; index < vm.initCount.messagesCount; index++) {
+
+		if (!vm.messagesCache.get(index)) continue;
+
+		var userId = vm.messagesCache.get(index).userId;
+
+		vm.messagesCache.get(index).name = vm.usersCache.get(userId - 1).name;
+		vm.messagesCache.get(index).email = vm.usersCache.get(userId - 1).email;
+
+		if ($location.path() == '/list-user-messages/'+ userId) {
+			vm.userMessages.push(vm.messagesCache.get(index));
+		}
+	}
+
+	menuActiveClassService.removeClass('active', '.main-menu');
+
+	// если страница с юзерами была прокручена, то кликнув по юзеру прокрутка останется на том же месте. прокручиваем страницу вверх
+	window.scrollTo(0,0);
+}
+
+function ListUsersCtrl(initCountService,
+					   usersCacheFactory,
+					   liveSearchService,
+					   menuActiveClassService
+){
+	var vm = this;
+	vm.initCount = initCountService;
 	vm.usersCache = usersCacheFactory;
 	vm.liveSearchService = liveSearchService;
 	vm.users = [];
@@ -101,8 +141,9 @@ function ListUsersCtrl(initCountFactory,
 	}
 
 	menuActiveClassService.addClass('active', '.main-menu', '.users');
-	
-	scrollTopService();
+
+	// если страница с юзерами была прокручена, то кликнув по юзеру прокрутка останется на том же месте. прокручиваем страницу вверх
+	window.scrollTo(0,0);
 }
 
 function ViewDraftMessageCtrl($routeParams,
@@ -139,18 +180,21 @@ function ViewDraftMessageCtrl($routeParams,
 	}
 
 	menuActiveClassService.removeClass('active', '.main-menu');
+
+	// если страница с юзерами была прокручена, то кликнув по юзеру прокрутка останется на том же месте. прокручиваем страницу вверх
+	window.scrollTo(0,0);
 }
 
 function ViewMessageCtrl($routeParams,
 						 $location,
-						 initCountFactory,
+						 initCountService,
 						 messagesCacheFactory,
 						 usersCacheFactory,
 						 liveSearchService,
 						 menuActiveClassService
 ){
 	var vm = this;
-	vm.initCount = initCountFactory;
+	vm.initCount = initCountService;
 	vm.messagesCache = messagesCacheFactory;
 	vm.usersCache = usersCacheFactory;
 	vm.liveSearchService = liveSearchService;
@@ -189,46 +233,7 @@ function ViewMessageCtrl($routeParams,
 	}
 
 	menuActiveClassService.removeClass('active', '.main-menu');
-}
-
-function ListUserMessagesCtrl($routeParams,
-							  $location,
-							  initCountFactory,
-							  messagesCacheFactory,
-							  usersCacheFactory,
-							  liveSearchService,
-							  menuActiveClassService,
-							  scrollTopService
-){
-	var vm = this;
-	vm.initCount = initCountFactory;
-	vm.messagesCache = messagesCacheFactory;
-	vm.usersCache = usersCacheFactory;
-	vm.liveSearchService = liveSearchService;
-	vm.userMessages = [];
-
-	// обнулить поле живого поиска
-	vm.liveSearchService.searchText = '';
-	vm.liveSearchService.placeholder = 'поиск писем';
-
-	for (var index = 0; index < vm.initCount.messagesCount; index++) {
-
-		if (!vm.messagesCache.get(index)) continue;
-
-		var userId = vm.messagesCache.get(index).userId;
-
-		vm.messagesCache.get(index).name = vm.usersCache.get(userId - 1).name;
-		vm.messagesCache.get(index).email = vm.usersCache.get(userId - 1).email;
-
-		if ($location.path() == '/list-user-messages/'+ userId) {
-			vm.userMessages.push(vm.messagesCache.get(index));
-		}
-	}
-
-	menuActiveClassService.removeClass('active', '.main-menu');
 
 	// если страница с юзерами была прокручена, то кликнув по юзеру прокрутка останется на том же месте. прокручиваем страницу вверх
 	window.scrollTo(0,0);
-
-	scrollTopService();
 }
